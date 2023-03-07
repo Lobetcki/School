@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.HouseService;
 
+import java.util.List;
+
 @RequestMapping("faculty")
 @RestController
 public class HouseController {
@@ -45,4 +47,13 @@ public class HouseController {
         }
         return ResponseEntity.ok(deleteFaculty);
     }
+
+                                                                    // Filter by color
+    @GetMapping("{studentAge}")
+    public List<Faculty> filterByColorFaculty(@PathVariable String color) throws Exception {
+        return houseService.filterByColorFaculty(color);
+
+    }
+
+
 }

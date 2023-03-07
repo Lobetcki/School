@@ -6,12 +6,12 @@ public class Faculty {
 
     private Long facultyId;
     private String nameFaculty;
-    private Integer color;
+    private String color;
 
     public Faculty() {
     }
 
-    public Faculty(Long idFaculty, String nameFaculty, Integer color) {
+    public Faculty(Long idFaculty, String nameFaculty, String color) {
         this.facultyId = idFaculty;
         this.nameFaculty = nameFaculty;
         this.color = color;
@@ -33,11 +33,11 @@ public class Faculty {
         this.nameFaculty = nameFaculty;
     }
 
-    public Integer getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(Integer color) {
+    public void setColor(String color) {
         this.color = color;
     }
 

@@ -5,6 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
+import java.util.List;
+import java.util.Map;
+
 @RequestMapping("students")
 @RestController
 public class StudentController {
@@ -49,9 +52,8 @@ public class StudentController {
 
                                                                         // Filter by age
     @GetMapping("{studentAge}")
-    public ResponseEntity getStudent(@PathVariable Long studentAge) {
-
-
+    public List<Student> filterByAgeStudents(@PathVariable Integer studentAge) throws Exception {
+        return studentService.filterByAgeStudents(studentAge);
 
     }
 
