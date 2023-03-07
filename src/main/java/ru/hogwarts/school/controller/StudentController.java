@@ -8,7 +8,7 @@ import ru.hogwarts.school.service.StudentService;
 import java.util.List;
 import java.util.Map;
 
-@RequestMapping("students")
+@RequestMapping("/students")
 @RestController
 public class StudentController {
 
@@ -24,15 +24,7 @@ public class StudentController {
         Student createdStudent = studentService.createdStudent(student);
         return ResponseEntity.ok(createdStudent);
     }
-                                                                        // Get
-    @GetMapping("{studentId}")
-    public ResponseEntity getStudent(@PathVariable Long studentId) {
-        Student getStudent = studentService.getStudent(studentId);
-        if (getStudent == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(getStudent);
-    }
+
                                                                         // Updete
     @PutMapping()
     public ResponseEntity updeteStudent(@RequestBody Student student) {
@@ -41,7 +33,7 @@ public class StudentController {
     }
 
                                                                          // Delete
-    @DeleteMapping("{studentId}")
+    @DeleteMapping("/{studentId}")
     public ResponseEntity deleteStudent(@PathVariable Long studentId) {
         Student deleteStudent = studentService.deleteStudent(studentId);
         if (deleteStudent == null) {
@@ -50,9 +42,16 @@ public class StudentController {
         return ResponseEntity.ok(deleteStudent);
     }
 
-                                                                        // Filter by age
-    @GetMapping("{studentAge}")
-    public List<Student> filterByAgeStudents(@PathVariable Integer studentAge) throws Exception {
+                                                                                // Get
+    @GetMapping("/{studentId}")
+    public ResponseEntity getStudent(@PathVariable Long studentId) {
+        Student getStudent = studentService.getStudent(studentId);
+
+        return ResponseEntity.ok(getStudent);
+    }
+                                                                            // Filter by age
+    @GetMapping
+    public List<Student> filterByAgeStudents(@RequestParam Integer studentAge) {
         return studentService.filterByAgeStudents(studentAge);
 
     }

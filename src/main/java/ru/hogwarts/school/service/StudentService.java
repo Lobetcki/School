@@ -40,11 +40,8 @@ public class StudentService {
     }
 
                                                         // Filter by age
-    public List<Student> filterByAgeStudents(Integer ageStudent) throws Exception {
-       if (ageStudent <= 0) {
-            throw new Exception("Возраст задан неверно");
-        }
-        return mapStudent.values().stream()
+    public List<Student> filterByAgeStudents(Integer ageStudent) {
+       return mapStudent.values().stream()
                 .filter(longStudentEntry -> longStudentEntry.getAgeStudent() == ageStudent)
                 .collect(Collectors.toList());
     }

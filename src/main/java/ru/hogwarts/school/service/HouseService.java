@@ -24,10 +24,7 @@ public class HouseService {
         generatedFacultyID++;
         return faculty;
     }
-                                                          // Get
-    public Faculty getFaculty(Long facultyId) {
-       return mapFaculty.get(facultyId);
-    }
+
                                                         // Updete
     public Faculty updeteFaculty(Long facultyId, Faculty faculty) {
         mapFaculty.put(facultyId, faculty);
@@ -38,11 +35,14 @@ public class HouseService {
         return mapFaculty.remove(facultyId);
     }
 
+                                                            // Get
+    public Faculty getFaculty(Long facultyId) {
+        System.out.println(mapFaculty);
+        return mapFaculty.get(facultyId);
+    }
+
                                                             // Filter by age
-    public List<Faculty> filterByColorFaculty(String colory) throws Exception {
-        if ( colory == null || colory.equals("")) {
-            throw new Exception("Цвет задан неверно");
-        }
+    public List<Faculty> filterByColorFaculty(String colory) {
         return mapFaculty.values().stream()
                 .filter(longStudentEntry -> longStudentEntry.getColor().contains(colory))
                 .collect(Collectors.toList());

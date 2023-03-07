@@ -7,7 +7,7 @@ import ru.hogwarts.school.service.HouseService;
 
 import java.util.List;
 
-@RequestMapping("faculty")
+@RequestMapping("/faculty")
 @RestController
 public class HouseController {
 
@@ -22,15 +22,7 @@ public class HouseController {
         Faculty createdFaculty = houseService.createdFaculty(faculty);
         return ResponseEntity.ok(createdFaculty);
     }
-                                                                      // Get
-    @GetMapping("{facultyId}")
-    public ResponseEntity getFaculty(@PathVariable Long facultyId) {
-        Faculty getFaculty = houseService.getFaculty(facultyId);
-        if (getFaculty == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(getFaculty);
-    }
+
                                                                       // Updete
     @PutMapping()
     public ResponseEntity updeteFaculty(@RequestBody Faculty faculty) {
@@ -39,7 +31,7 @@ public class HouseController {
     }
 
                                                                         // Delete
-    @DeleteMapping("{facultyId}")
+    @DeleteMapping("/{facultyId}")
     public ResponseEntity deleteFaculty(@PathVariable Long facultyId) {
         Faculty deleteFaculty = houseService.deleteFaculty(facultyId);
         if (deleteFaculty == null) {
@@ -48,9 +40,19 @@ public class HouseController {
         return ResponseEntity.ok(deleteFaculty);
     }
 
+                                                                    // Get
+    @GetMapping("/{facultyId}")
+    public Faculty getFaculty(@PathVariable Long facultyId) {
+        System.out.println(houseService);
+
+        Faculty getFaculty = houseService.getFaculty(facultyId);
+
+        return getFaculty; //ResponseEntity.ok(getFaculty);
+    }
+
                                                                     // Filter by color
-    @GetMapping("{studentAge}")
-    public List<Faculty> filterByColorFaculty(@PathVariable String color) throws Exception {
+    @GetMapping
+    public List<Faculty> filterByColorFaculty(@RequestParam String color) {
         return houseService.filterByColorFaculty(color);
 
     }
