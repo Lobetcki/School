@@ -42,19 +42,22 @@ public class HouseController {
 
                                                                     // Get
     @GetMapping("/{facultyId}")
-    public Faculty getFaculty(@PathVariable Long facultyId) {
-        System.out.println(houseService);
-
+    public ResponseEntity getFaculty(@PathVariable Long facultyId) {
         Faculty getFaculty = houseService.getFaculty(facultyId);
-
-        return getFaculty; //ResponseEntity.ok(getFaculty);
+        if (getFaculty == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(getFaculty);
     }
 
                                                                     // Filter by color
     @GetMapping
-    public List<Faculty> filterByColorFaculty(@RequestParam String color) {
-        return houseService.filterByColorFaculty(color);
-
+    public ResponseEntity<Object> filterByColorFaculty(@RequestParam String color) {
+        List<Faculty> filterByColorFaculty = houseService.filterByColorFaculty(color);
+        if (filterByColorFaculty == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(filterByColorFaculty);
     }
 
 
