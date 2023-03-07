@@ -13,21 +13,24 @@ public class HouseService {
 
     private Long generatedFacultyID = 1L;
 
+    public HouseService() {
+    }
+                                                       // Created
     public Faculty createdFaculty(Faculty faculty) {
         mapFaculty.put(generatedFacultyID, faculty);
         generatedFacultyID++;
         return faculty;
     }
-
+                                                          // Get
     public Faculty getFaculty(Long facultyId) {
        return mapFaculty.get(facultyId);
     }
-
+                                                        // Updete
     public Faculty updeteFaculty(Long facultyId, Faculty faculty) {
         mapFaculty.put(facultyId, faculty);
         return faculty;
     }
-
+                                                         // Delete
     public Faculty deleteFaculty(Long facultyId) {
         return mapFaculty.remove(facultyId);
     }

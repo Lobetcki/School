@@ -14,22 +14,22 @@ public class StudentService {
     private Map<Long, Student> mapStudent = new HashMap<>();
 
     private Long generatedStudentID = 1L;
-
+                                                    // Created
     public Student createdStudent(Student student) {
         mapStudent.put(generatedStudentID, student);
         generatedStudentID++;
         return student;
     }
-
+                                                    // Get
     public Student getStudent(Long studentId) {
         return mapStudent.get(studentId);
     }
-
+                                                    // Updete
     public Student updeteStudent(Long studentId, Student student) {
         mapStudent.put(studentId, student);
         return student;
     }
-
+                                                     // Delete
     public Student deleteStudent(Long studentId) {
         return mapStudent.remove(studentId);
     }

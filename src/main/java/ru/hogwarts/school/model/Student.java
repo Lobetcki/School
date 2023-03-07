@@ -8,6 +8,9 @@ public class Student {
     private String nameStudent;
     private Integer ageStudent;
 
+    public Student() {
+    }
+
     public Student(Long idStudent, String nameStudent, Integer ageStudent) {
         this.idStudent = idStudent;
         this.nameStudent = nameStudent;
