@@ -2,24 +2,24 @@ package ru.hogwarts.school.model;
 
 import java.util.Objects;
 
-public class Facultu {
+public class Faculty {
 
-    private Long idFaculty;
+    private Long facultyId;
     private String nameFaculty;
     private Integer color;
 
-    public Facultu(Long idFaculty, String nameFaculty, Integer color) {
-        this.idFaculty = idFaculty;
+    public Faculty(Long idFaculty, String nameFaculty, Integer color) {
+        this.facultyId = idFaculty;
         this.nameFaculty = nameFaculty;
         this.color = color;
     }
 
     public Long getIdFaculty() {
-        return idFaculty;
+        return facultyId;
     }
 
     public void setIdFaculty(Long idFaculty) {
-        this.idFaculty = idFaculty;
+        this.facultyId = idFaculty;
     }
 
     public String getNameFaculty() {
@@ -41,7 +41,7 @@ public class Facultu {
     @Override
     public String toString() {
         return "Facultu{" +
-                "idFaculty=" + idFaculty +
+                "idFaculty=" + facultyId +
                 ", nameFaculty='" + nameFaculty + '\'' +
                 ", color=" + color +
                 '}';
@@ -51,12 +51,12 @@ public class Facultu {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Facultu facultu = (Facultu) o;
-        return Objects.equals(idFaculty, facultu.idFaculty) && Objects.equals(nameFaculty, facultu.nameFaculty) && Objects.equals(color, facultu.color);
+        Faculty facultu = (Faculty) o;
+        return Objects.equals(facultyId, facultu.facultyId) && Objects.equals(nameFaculty, facultu.nameFaculty) && Objects.equals(color, facultu.color);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idFaculty, nameFaculty, color);
+        return Objects.hash(facultyId, nameFaculty, color);
     }
 }
