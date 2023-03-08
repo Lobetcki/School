@@ -42,7 +42,7 @@ public class StudentService {
     }
                                                         // Filter by age
     public List<Student> filterByAgeStudents(Integer ageStudent) {
-       return mapStudent.values().stream()
+       return studentRepository.findAll().stream()
                 .filter(longStudentEntry -> longStudentEntry.getAgeStudent() == ageStudent)
                 .collect(Collectors.toList());
     }

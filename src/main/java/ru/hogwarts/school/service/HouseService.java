@@ -39,7 +39,7 @@ public class HouseService {
     public List<Faculty> filterByColorFaculty(String colory) {
 
 
-        return mapFaculty.values().stream()
+        return facultyRepository.findAll().stream()
                 .filter(longStudentEntry -> longStudentEntry.getColor().contains(colory))
                 .collect(Collectors.toList());
     }
