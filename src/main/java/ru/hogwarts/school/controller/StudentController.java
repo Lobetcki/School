@@ -28,19 +28,16 @@ public class StudentController {
 
                                                                         // Updete
     @PutMapping()
-    public ResponseEntity updeteStudent(@RequestBody Student student) {
-        Student updeteStudent = studentService.updeteStudent(student.getIdStudent(), student);
+    public ResponseEntity<Student> updeteStudent(@RequestBody Student student) {
+        Student updeteStudent = studentService.updeteStudent(student);
         return ResponseEntity.ok(updeteStudent);
     }
 
                                                                          // Delete
     @DeleteMapping("/{studentId}")
     public ResponseEntity deleteStudent(@PathVariable Long studentId) {
-        Student deleteStudent = studentService.deleteStudent(studentId);
-        if (deleteStudent == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(deleteStudent);
+        studentService.deleteStudent(studentId);
+        return ResponseEntity.ok().build();
     }
 
                                                                                 // Get

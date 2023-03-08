@@ -2,47 +2,43 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repositories.FacultyRepository;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class HouseService {
 
-    private final Map<Long, Faculty> mapFaculty = new HashMap<>();
+    private final FacultyRepository facultyRepository;
 
-    private Long generatedFacultyID = 1L;
-
-    public HouseService() {
+    public HouseService(FacultyRepository facultyRepository) {
+        this.facultyRepository = facultyRepository;
     }
                                                        // Created
     public Faculty createdFaculty(Faculty faculty) {
-        mapFaculty.put(generatedFacultyID, faculty);
-        generatedFacultyID++;
+        facultyRepository.save(faculty);
         return faculty;
     }
 
                                                         // Updete
-    public Faculty updeteFaculty(Long facultyId, Faculty faculty) {
-        mapFaculty.put(facultyId, faculty);
-        return faculty;
+    public Faculty updeteFaculty(Faculty faculty) {
+        return facultyRepository.save(faculty);
     }
                                                          // Delete
-    public Faculty deleteFaculty(Long facultyId) {
-        return mapFaculty.remove(facultyId);
+    public void deleteFaculty(Long facultyId) {
+        facultyRepository.deleteById(facultyId);
     }
 
                                                             // Get
     public Faculty getFaculty(Long facultyId) {
-        System.out.println(mapFaculty);
-        return mapFaculty.get(facultyId);
+        return facultyRepository.getById(facultyId);
     }
 
                                                             // Filter by age
     public List<Faculty> filterByColorFaculty(String colory) {
+
+
         return mapFaculty.values().stream()
                 .filter(longStudentEntry -> longStudentEntry.getColor().contains(colory))
                 .collect(Collectors.toList());
