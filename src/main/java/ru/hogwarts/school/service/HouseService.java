@@ -38,11 +38,7 @@ public class HouseService {
 
                                                             // Filter by age
     public List<Faculty> filterByColorFaculty(String colory) {
-
-
-        return facultyRepository.findAll().stream()
-                .filter(longStudentEntry -> longStudentEntry.getColor().contains(colory))
-                .collect(Collectors.toList());
+        return facultyRepository.findFacultiesByColor(colory);
     }
 
 }

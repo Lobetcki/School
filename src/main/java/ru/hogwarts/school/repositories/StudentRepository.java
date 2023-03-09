@@ -9,6 +9,6 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
 //    @Query("SELECT pos FROM Student pos WHERE pos.age_student IS NOT NULL")
-//    List<Student> findByName();
+    List<Student> findStudentByAgeStudent(Integer age);
 
 }
