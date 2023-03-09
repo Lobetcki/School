@@ -18,8 +18,8 @@ public class Student {
     public Student() {
     }
 
-    public Student(String nameStudent, Integer ageStudent) {
-       // this.idStudent = idStudent;
+    public Student(Long idStudent, String nameStudent, Integer ageStudent) {
+        this.idStudent = idStudent;
         this.nameStudent = nameStudent;
         this.ageStudent = ageStudent;
     }
