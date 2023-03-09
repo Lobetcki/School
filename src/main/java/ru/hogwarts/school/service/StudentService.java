@@ -35,7 +35,7 @@ public class StudentService {
 
                                                         // Get
     public Student getStudent(Long studentId) {
-        return studentRepository.findById(studentId).get();
+        return studentRepository.findById(studentId).orElse(null);
     }
                                                         // Filter by age
     public List<Student> filterByAgeStudents(Integer ageStudent) {
