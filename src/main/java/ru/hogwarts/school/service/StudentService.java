@@ -20,12 +20,9 @@ public class StudentService {
 
                                                         // Created
     public Student createdStudent(Student student) {
-//        student.setIdStudent(null);
         studentRepository.save(student);
         return student;
     }
-
-
 
                                                     // Updete
     public Student updeteStudent(Student student) {
