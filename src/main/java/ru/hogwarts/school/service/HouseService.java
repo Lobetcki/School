@@ -2,7 +2,9 @@ package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.dto.FacultyDTO;
+import ru.hogwarts.school.dto.StudentDTO;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.ArrayList;
@@ -17,27 +19,31 @@ public class HouseService {
         this.facultyRepository = facultyRepository;
     }
                                                        // Created
-    public Faculty createdFaculty(Faculty faculty) {
-        facultyRepository.save(faculty);
-        return faculty;
+    public FacultyDTO createdFaculty(FacultyDTO facultyDTO) {
+        facultyDTO.setFacultyId(null);
+        Faculty faculty = facultyDTO.toFaculty();
+        return FacultyDTO.fromFaculty(facultyRepository.save(faculty));
     }
 
-                                                        // Updete
-    public Faculty updeteFaculty(Faculty faculty) {
-        return facultyRepository.save(faculty);
+                                                                 // Updete
+    public FacultyDTO updeteFaculty(FacultyDTO facultyDTO) {
+        Faculty faculty = facultyDTO.toFaculty();
+        return FacultyDTO.fromFaculty(facultyRepository.save(faculty));
+
+        //return facultyRepository.save(faculty);
     }
-                                                         // Delete
+                                                                // Delete
     public void deleteFaculty(Long facultyId) {
         facultyRepository.deleteById(facultyId);
     }
 
-                                                            // Get
-    public Faculty getFaculty(Long facultyId) {
+                                                                 // Get
+    public FacultyDTO getFaculty(Long facultyId) {
 
-        return facultyRepository.findById(facultyId).orElse(null);
+        return FacultyDTO.fromFaculty(facultyRepository.findById(facultyId).orElse(null));
     }
 
-                                                            // Filter by color
+                                                               // Filter by color
     public List<FacultyDTO> filterByColorFaculty(String colory) {
         List<Faculty> faculties = facultyRepository.findFacultiesByColorIgnoreCase(colory);
         List<FacultyDTO> facultyDTOs = new ArrayList<>();

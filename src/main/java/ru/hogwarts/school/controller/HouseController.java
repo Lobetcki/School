@@ -2,6 +2,7 @@ package ru.hogwarts.school.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.dto.FacultyDTO;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.HouseService;
 
@@ -18,15 +19,15 @@ public class HouseController {
     }
                                                                      // Created
     @PostMapping
-    public ResponseEntity createdFaculty(@RequestBody Faculty faculty) {
-        Faculty createdFaculty = houseService.createdFaculty(faculty);
+    public ResponseEntity createdFaculty(@RequestBody FacultyDTO facultyDTO) {
+        FacultyDTO createdFaculty = houseService.createdFaculty(facultyDTO);
         return ResponseEntity.ok(createdFaculty);
     }
 
                                                                       // Updete
     @PutMapping()
-    public ResponseEntity<Faculty> updeteFaculty(@RequestBody Faculty faculty) {
-        Faculty updeteFaculty = houseService.updeteFaculty(faculty);
+    public ResponseEntity<FacultyDTO> updeteFaculty(@RequestBody FacultyDTO facultyDTO) {
+        FacultyDTO updeteFaculty = houseService.updeteFaculty(facultyDTO);
         return ResponseEntity.ok(updeteFaculty);
     }
 
@@ -39,8 +40,8 @@ public class HouseController {
 
                                                                     // Get
     @GetMapping("/{facultyId}")
-    public ResponseEntity getFaculty(@PathVariable Long facultyId) {
-        Faculty getFaculty = houseService.getFaculty(facultyId);
+    public ResponseEntity<FacultyDTO> getFaculty(@PathVariable Long facultyId) {
+        FacultyDTO getFaculty = houseService.getFaculty(facultyId);
         if (getFaculty == null) {
             return ResponseEntity.notFound().build();
         }

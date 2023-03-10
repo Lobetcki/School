@@ -42,7 +42,7 @@ public class StudentController {
         return ResponseEntity.ok().build();
     }
 
-                                                                                // Get
+                                                                       // Get
     @GetMapping("/{studentId}")
     public ResponseEntity<StudentDTO> getStudent(@PathVariable Long studentId) {
         StudentDTO getStudent = studentService.getStudent(studentId);

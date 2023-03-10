@@ -42,10 +42,9 @@ public class StudentService {
     }
                                                                   // Delete
     public void deleteStudent(Long studentId) {
-
         studentRepository.deleteById(studentId);
     }
-                                                                         // Get
+                                                                // Get
     public StudentDTO getStudent(Long studentId) {
         return StudentDTO.fromStudent(studentRepository.findById(studentId).get());
     }
