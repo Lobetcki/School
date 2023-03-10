@@ -1,9 +1,11 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.stereotype.Service;
+import ru.hogwarts.school.dto.FacultyDTO;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -35,11 +37,17 @@ public class HouseService {
     }
 
                                                             // Filter by color
-    public List<Faculty> filterByColorFaculty(String colory) {
-        return facultyRepository.findFacultiesByColorIgnoreCase(colory);
+    public List<FacultyDTO> filterByColorFaculty(String colory) {
+        List<Faculty> faculties = facultyRepository.findFacultiesByColorIgnoreCase(colory);
+        List<FacultyDTO> facultyDTOs = new ArrayList<>();
+        for (Faculty f : faculties) {
+            FacultyDTO facultyDTO = FacultyDTO.fromFaculty(f);
+            facultyDTOs.add(facultyDTO);
+        }
+        return facultyDTOs;
     }
                                                             // Filter by name faculty
-    public Faculty findByNameFaculty(String nameFaculty) {
-        return facultyRepository.findByNameFacultyContainingIgnoreCase(nameFaculty);
+    public FacultyDTO findByNameFaculty(String nameFaculty) {
+        return FacultyDTO.fromFaculty(facultyRepository.findByNameFacultyContainingIgnoreCase(nameFaculty));
     }
 }

@@ -15,6 +15,7 @@ public class Faculty {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "faculty_id")
     private Long facultyId;
     private String nameFaculty;
     private String color;
@@ -23,11 +24,11 @@ public class Faculty {
     private List<Student> students;
 
 
-    public Faculty(Long idFaculty,String nameFaculty, String color) {
-        this.facultyId = idFaculty;
-        this.nameFaculty = nameFaculty;
-        this.color = color;
-    }
+//    public Faculty(Long idFaculty,String nameFaculty, String color) {
+//        this.facultyId = idFaculty;
+//        this.nameFaculty = nameFaculty;
+//        this.color = color;
+//    }
 
 
 }
