@@ -4,10 +4,8 @@ import jdk.jfr.DataAmount;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -20,6 +18,10 @@ public class Faculty {
     private Long facultyId;
     private String nameFaculty;
     private String color;
+
+    @OneToMany(mappedBy = "faculty")
+    private List<Student> students;
+
 
     public Faculty(Long idFaculty,String nameFaculty, String color) {
         this.facultyId = idFaculty;

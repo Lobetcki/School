@@ -43,7 +43,7 @@ public class StudentController {
                                                                                 // Get
     @GetMapping("/{studentId}")
     public ResponseEntity getStudent(@PathVariable Long studentId) {
-        Student getStudent = studentService.getStudent(studentId);
+        Student getStudent = studentService.getStudent(studentId).toStudent();
         if (getStudent == null) {
             return ResponseEntity.notFound().build();
         }
@@ -51,15 +51,17 @@ public class StudentController {
     }
 
                                                                             // Filter by age between min and max
-//    @GetMapping
-//    public ResponseEntity<Object> findStudents(@RequestParam Integer studentAge, @RequestParam Integer min,@RequestParam Integer max) {
-//        if (studentAge != null && !(studentAge >= 0)) {
-//            return ResponseEntity.ok(studentService.filterByAgeStudents(studentAge));
-//        }
-//
-//        if ((min != null && !(min >= 0) ) || (max != null && !(max >= 0))) {
-//            return ResponseEntity.ok(studentService.findByAgeBetween(min, max));
-//        }
-//        return ResponseEntity.notFound().build();
-//    }
+    @GetMapping
+    public ResponseEntity<Object> findStudents(@RequestParam(required = false) Integer studentAge,
+                                               @RequestParam(required = false) Integer min,
+                                               @RequestParam(required = false) Integer max) {
+        if (studentAge != null && (studentAge >= 0)) {
+            return ResponseEntity.ok(studentService.filterByAgeStudents(studentAge));
+        }
+
+        if ((min != null && (min >= 0) ) && (max != null && (max >= 0))) {
+            return ResponseEntity.ok(studentService.findByAgeBetween(min, max));
+        }
+        return ResponseEntity.notFound().build();
+    }
 }

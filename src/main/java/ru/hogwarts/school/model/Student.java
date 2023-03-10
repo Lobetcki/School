@@ -3,10 +3,7 @@ package ru.hogwarts.school.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
@@ -20,10 +17,21 @@ public class Student {
     private String nameStudent;
     private Integer ageStudent;
 
-    public Student(Long idStudent, String nameStudent, Integer ageStudent) {
+    @ManyToOne
+    private Faculty faculty;
+
+    public Faculty getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(Faculty faculty) {
+        this.faculty = faculty;
+    }
+
+    public Student(Long idStudent, String nameStudent, Integer ageStudent, Faculty faculty) {
         this.idStudent = idStudent;
         this.nameStudent = nameStudent;
         this.ageStudent = ageStudent;
+        this.faculty.setFacultyId(faculty.getFacultyId());
     }
-
 }
