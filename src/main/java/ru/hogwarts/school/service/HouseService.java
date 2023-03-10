@@ -5,7 +5,6 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class HouseService {
@@ -35,9 +34,12 @@ public class HouseService {
         return facultyRepository.findById(facultyId).orElse(null);
     }
 
-                                                            // Filter by age
+                                                            // Filter by color
     public List<Faculty> filterByColorFaculty(String colory) {
-        return facultyRepository.findFacultiesByColor(colory);
+        return facultyRepository.findFacultiesByColorIgnoreCase(colory);
     }
-
+                                                            // Filter by name faculty
+    public Faculty findByNameFaculty(String nameFaculty) {
+        return facultyRepository.findByNameFacultyContainingIgnoreCase(nameFaculty);
+    }
 }

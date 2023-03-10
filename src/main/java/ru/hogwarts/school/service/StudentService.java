@@ -38,9 +38,13 @@ public class StudentService {
         return studentRepository.findById(studentId).orElse(null);
     }
                                                         // Filter by age
-    public List<Student> filterByAgeStudents(Integer ageStudent) {
-      return studentRepository.findStudentByAgeStudent(ageStudent);
+    public List<Student> filterByAgeStudents(Integer age) {
+      return studentRepository.findStudentByAgeStudent(age);
     }
+                                                                // Filter by age between min and max
+//    public List<Student> findByAgeBetween(Integer min, Integer max) {
+//        return studentRepository.findByAgeStudentGreaterThan(min, max);
+//    }
 
 
 }

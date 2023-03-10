@@ -49,15 +49,17 @@ public class StudentController {
         }
         return ResponseEntity.ok(getStudent);
     }
-                                                                            // Filter by age
-    @GetMapping
-    public ResponseEntity<Object> filterByAgeStudents(@RequestParam Integer studentAge) {
-        List<Student> filterByAgeStudents = studentService.filterByAgeStudents(studentAge);
-        if (filterByAgeStudents == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(filterByAgeStudents);
-    }
 
-
+                                                                            // Filter by age between min and max
+//    @GetMapping
+//    public ResponseEntity<Object> findStudents(@RequestParam Integer studentAge, @RequestParam Integer min,@RequestParam Integer max) {
+//        if (studentAge != null && !(studentAge >= 0)) {
+//            return ResponseEntity.ok(studentService.filterByAgeStudents(studentAge));
+//        }
+//
+//        if ((min != null && !(min >= 0) ) || (max != null && !(max >= 0))) {
+//            return ResponseEntity.ok(studentService.findByAgeBetween(min, max));
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
 }

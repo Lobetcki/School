@@ -47,14 +47,18 @@ public class HouseController {
         return ResponseEntity.ok(getFaculty);
     }
 
-                                                                    // Filter by color
+                                                                    // Find  Faculty
     @GetMapping
-    public ResponseEntity<Object> filterByColorFaculty(@RequestParam String color) {
-        List<Faculty> filterByColorFaculty = houseService.filterByColorFaculty(color);
-        if (filterByColorFaculty == null) {
-            return ResponseEntity.notFound().build();
+    public ResponseEntity<Object> findFaculty(@RequestParam(required = false) String color,
+                                              @RequestParam(required = false) String nameFaculty) {
+        if (color != null && !color.isBlank()) {
+            return ResponseEntity.ok(houseService.filterByColorFaculty(color));
         }
-        return ResponseEntity.ok(filterByColorFaculty);
+
+        if (nameFaculty != null && !nameFaculty.isBlank()) {
+            return ResponseEntity.ok(houseService.findByNameFaculty(nameFaculty));
+        }
+        return ResponseEntity.notFound().build();
     }
 
 
