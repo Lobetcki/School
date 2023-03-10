@@ -2,10 +2,12 @@ package ru.hogwarts.school.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.hogwarts.school.dto.StudentDTO;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
 import javax.validation.constraints.Max;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -21,15 +23,15 @@ public class StudentController {
 
                                                                         // Created
     @PostMapping
-    public ResponseEntity createdStudent(@RequestBody Student student) {
-        Student createdStudent = studentService.createdStudent(student);
+    public ResponseEntity<StudentDTO> createdStudent(@RequestBody StudentDTO studentDTO) {
+        StudentDTO createdStudent = studentService.createdStudent(studentDTO);
         return ResponseEntity.ok(createdStudent);
     }
 
                                                                         // Updete
     @PutMapping()
-    public ResponseEntity<Student> updeteStudent(@RequestBody Student student) {
-        Student updeteStudent = studentService.updeteStudent(student);
+    public ResponseEntity<StudentDTO> updeteStudent(@RequestBody StudentDTO studentDTO) {
+        StudentDTO updeteStudent = studentService.updeteStudent(studentDTO);
         return ResponseEntity.ok(updeteStudent);
     }
 
@@ -42,8 +44,8 @@ public class StudentController {
 
                                                                                 // Get
     @GetMapping("/{studentId}")
-    public ResponseEntity getStudent(@PathVariable Long studentId) {
-        Student getStudent = studentService.getStudent(studentId).toStudent();
+    public ResponseEntity<StudentDTO> getStudent(@PathVariable Long studentId) {
+        StudentDTO getStudent = studentService.getStudent(studentId);
         if (getStudent == null) {
             return ResponseEntity.notFound().build();
         }
@@ -52,9 +54,9 @@ public class StudentController {
 
                                                                             // Filter by age between min and max
     @GetMapping
-    public ResponseEntity<Object> findStudents(@RequestParam(required = false) Integer studentAge,
-                                               @RequestParam(required = false) Integer min,
-                                               @RequestParam(required = false) Integer max) {
+    public ResponseEntity<Collection<StudentDTO>> findStudents(@RequestParam(required = false) Integer studentAge,
+                                                              @RequestParam(required = false) Integer min,
+                                                              @RequestParam(required = false) Integer max) {
         if (studentAge != null && (studentAge >= 0)) {
             return ResponseEntity.ok(studentService.filterByAgeStudents(studentAge));
         }

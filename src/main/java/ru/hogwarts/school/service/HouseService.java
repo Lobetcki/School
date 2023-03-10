@@ -33,6 +33,7 @@ public class HouseService {
 
                                                             // Get
     public Faculty getFaculty(Long facultyId) {
+
         return facultyRepository.findById(facultyId).orElse(null);
     }
 

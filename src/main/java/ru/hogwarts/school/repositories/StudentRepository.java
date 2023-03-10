@@ -7,10 +7,8 @@ import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-   // @Query("SELECT age FROM Student age WHERE age.ageStudent IS NOT NULL")
     List<Student> findStudentByAgeStudent(Integer age);
 
-//    @Query("SELECT age FROM Student age WHERE age.ageStudent > minAge AND age.ageStudent < maxAge ")
     List<Student> findByAgeStudentBetween(Integer min, Integer max);
 
 }

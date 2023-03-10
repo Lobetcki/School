@@ -26,27 +26,30 @@ public class StudentService {
         this.facultyRepository = facultyRepository;
     }
 
-    // Created
-    public Student createdStudent(Student student) {
-
-        studentRepository.save(student);
-        return student;
+                                                            // Created
+    public StudentDTO createdStudent(StudentDTO studentDTO) {
+        studentDTO.setIdStudent(null);
+        Student student = studentDTO.toStudent();
+        student.setFaculty(facultyRepository.findById(studentDTO.getFacultyID()).get());
+        return StudentDTO.fromStudent(studentRepository.save(student));
     }
 
-                                                                                            // Updete
-    public Student updeteStudent(Student student) {
-        return studentRepository.save(student);
+                                                               // Updete
+    public StudentDTO updeteStudent(StudentDTO studentDTO) {
+        Student student = studentDTO.toStudent();
+        student.setFaculty(facultyRepository.findById(studentDTO.getFacultyID()).get());
+        return StudentDTO.fromStudent(studentRepository.save(student));
     }
-                                                                                            // Delete
+                                                                  // Delete
     public void deleteStudent(Long studentId) {
+
         studentRepository.deleteById(studentId);
     }
-
-                                                                                            // Get
+                                                                         // Get
     public StudentDTO getStudent(Long studentId) {
         return StudentDTO.fromStudent(studentRepository.findById(studentId).get());
     }
-                                                                                     // Filter by age
+                                                                // Filter by age
     public List<StudentDTO> filterByAgeStudents(Integer age) {
         List<Student> students = studentRepository.findStudentByAgeStudent(age);
         List<StudentDTO> studentDTOs = new ArrayList<>();
@@ -56,7 +59,7 @@ public class StudentService {
         }
         return studentDTOs;
     }
-                                                                        // Filter by age between min and max
+                                                         // Filter by age between min and max
     public List<StudentDTO> findByAgeBetween(Integer min, Integer max) {
         List<Student> students = studentRepository.findByAgeStudentBetween(min, max);
         List<StudentDTO> studentDTOs = new ArrayList<>();
