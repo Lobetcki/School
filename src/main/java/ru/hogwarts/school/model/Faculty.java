@@ -23,12 +23,4 @@ public class Faculty {
     @OneToMany(mappedBy = "faculty")
     private List<Student> students;
 
-
-//    public Faculty(Long idFaculty,String nameFaculty, String color) {
-//        this.facultyId = idFaculty;
-//        this.nameFaculty = nameFaculty;
-//        this.color = color;
-//    }
-
-
 }

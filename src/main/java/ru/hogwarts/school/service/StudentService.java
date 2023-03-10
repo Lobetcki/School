@@ -2,7 +2,11 @@ package ru.hogwarts.school.service;
 
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import ru.hogwarts.school.dto.FacultyDTO;
 import ru.hogwarts.school.dto.StudentDTO;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
@@ -68,7 +72,11 @@ public class StudentService {
         }
         return studentDTOs;
     }
-
+                                                              // Faculty's student  by id
+    public FacultyDTO getFacultyByStudentId(Long studentId) {
+        StudentDTO studentDTO = StudentDTO.fromStudent(studentRepository.findById(studentId).get());
+        return FacultyDTO.fromFaculty(facultyRepository.findById(studentDTO.getFacultyID()).orElse(null));
+    }
 
 }
 

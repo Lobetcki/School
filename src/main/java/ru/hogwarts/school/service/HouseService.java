@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.hogwarts.school.dto.FacultyDTO;
 import ru.hogwarts.school.dto.StudentDTO;
 import ru.hogwarts.school.model.Faculty;
@@ -8,7 +10,9 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class HouseService {
@@ -38,7 +42,7 @@ public class HouseService {
     }
 
                                                                  // Get
-    public FacultyDTO getFaculty(Long facultyId) {
+    public FacultyDTO getFacultyDTO(Long facultyId) {
 
         return FacultyDTO.fromFaculty(facultyRepository.findById(facultyId).orElse(null));
     }
@@ -56,5 +60,14 @@ public class HouseService {
                                                             // Filter by name faculty
     public FacultyDTO findByNameFaculty(String nameFaculty) {
         return FacultyDTO.fromFaculty(facultyRepository.findByNameFacultyContainingIgnoreCase(nameFaculty));
+    }
+                                                            //Faculty's Students by faculty's id
+    public List<StudentDTO> findStudentsByFacultyId(@RequestParam Long facultyId) {
+        Faculty faculty = facultyRepository.findById(facultyId).get();
+        List<Student> students = faculty.getStudents();
+//        List<StudentDTO> students =
+        return students.stream()
+                .map(student -> StudentDTO.fromStudent(student))
+                .collect(Collectors.toList());
     }
 }

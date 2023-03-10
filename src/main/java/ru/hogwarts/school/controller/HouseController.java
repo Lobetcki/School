@@ -3,9 +3,10 @@ package ru.hogwarts.school.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.dto.FacultyDTO;
-import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.dto.StudentDTO;
 import ru.hogwarts.school.service.HouseService;
 
+import java.util.Collection;
 import java.util.List;
 
 @RequestMapping("/faculty")
@@ -41,7 +42,7 @@ public class HouseController {
                                                                     // Get
     @GetMapping("/{facultyId}")
     public ResponseEntity<FacultyDTO> getFaculty(@PathVariable Long facultyId) {
-        FacultyDTO getFaculty = houseService.getFaculty(facultyId);
+        FacultyDTO getFaculty = houseService.getFacultyDTO(facultyId);
         if (getFaculty == null) {
             return ResponseEntity.notFound().build();
         }
@@ -62,5 +63,12 @@ public class HouseController {
         return ResponseEntity.notFound().build();
     }
 
-
+    @GetMapping ("/students/{facultyId}")                               //Faculty's Students by faculty's id
+    public ResponseEntity<List<StudentDTO>> findStudentsByFacultyId(@PathVariable Long facultyId) {
+        List<StudentDTO> students = houseService.findStudentsByFacultyId(facultyId);
+//        if (students == null) {
+//            return ResponseEntity.notFound().build();
+//        }
+        return ResponseEntity.ok(students);
+    }
 }
