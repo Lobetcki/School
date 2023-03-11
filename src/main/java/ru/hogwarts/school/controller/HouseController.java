@@ -18,6 +18,7 @@ public class HouseController {
     public HouseController(HouseService houseService) {
         this.houseService = houseService;
     }
+
                                                                      // Created
     @PostMapping
     public ResponseEntity createdFaculty(@RequestBody FacultyDTO facultyDTO) {
@@ -66,9 +67,9 @@ public class HouseController {
     @GetMapping ("/students/{facultyId}")                               //Faculty's Students by faculty's id
     public ResponseEntity<List<StudentDTO>> findStudentsByFacultyId(@PathVariable Long facultyId) {
         List<StudentDTO> students = houseService.findStudentsByFacultyId(facultyId);
-//        if (students == null) {
-//            return ResponseEntity.notFound().build();
-//        }
+        if (students == null) {
+            return ResponseEntity.notFound().build();
+        }
         return ResponseEntity.ok(students);
     }
 }

@@ -10,7 +10,6 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,7 @@ public class HouseService {
     public HouseService(FacultyRepository facultyRepository) {
         this.facultyRepository = facultyRepository;
     }
-                                                       // Created
+                                                                  // Created
     public FacultyDTO createdFaculty(FacultyDTO facultyDTO) {
         facultyDTO.setFacultyId(null);
         Faculty faculty = facultyDTO.toFaculty();
@@ -33,8 +32,6 @@ public class HouseService {
     public FacultyDTO updeteFaculty(FacultyDTO facultyDTO) {
         Faculty faculty = facultyDTO.toFaculty();
         return FacultyDTO.fromFaculty(facultyRepository.save(faculty));
-
-        //return facultyRepository.save(faculty);
     }
                                                                 // Delete
     public void deleteFaculty(Long facultyId) {
@@ -43,7 +40,6 @@ public class HouseService {
 
                                                                  // Get
     public FacultyDTO getFacultyDTO(Long facultyId) {
-
         return FacultyDTO.fromFaculty(facultyRepository.findById(facultyId).orElse(null));
     }
 
@@ -60,12 +56,12 @@ public class HouseService {
                                                             // Filter by name faculty
     public FacultyDTO findByNameFaculty(String nameFaculty) {
         return FacultyDTO.fromFaculty(facultyRepository.findByNameFacultyContainingIgnoreCase(nameFaculty));
+
     }
                                                             //Faculty's Students by faculty's id
     public List<StudentDTO> findStudentsByFacultyId(@RequestParam Long facultyId) {
         Faculty faculty = facultyRepository.findById(facultyId).get();
         List<Student> students = faculty.getStudents();
-//        List<StudentDTO> students =
         return students.stream()
                 .map(student -> StudentDTO.fromStudent(student))
                 .collect(Collectors.toList());
