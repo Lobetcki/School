@@ -2,10 +2,7 @@ package ru.hogwarts.school.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.hogwarts.school.model.Avatar;
-import ru.hogwarts.school.repositories.StudentRepository;
-import ru.hogwarts.school.service.StudentService;
 
 @Data
 @NoArgsConstructor
@@ -19,8 +16,6 @@ public class AvatarDTO {
     private Long idStudentA;
 
    // private final StudentRepository studentRepository;
-
-   //
 
     public static AvatarDTO fromAvatar(Avatar avatar) {
         AvatarDTO dto = new AvatarDTO();

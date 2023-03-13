@@ -9,13 +9,10 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.service.AvatarService;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
-import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 @RequestMapping("/Avatar")
 @RestController
@@ -49,7 +46,7 @@ private final AvatarService avatarService;
         return ResponseEntity.status(HttpStatus.OK).headers(httpHeaders).body(avatar.getData());
     }
 
-                                                                                                // AVATARS from DB
+                                                                         // AVATARS from DB
     @GetMapping(value = "/{id}/avatar")
     public void downloadAvatar(@PathVariable Long id, HttpServletResponse response) throws IOException {
         Avatar avatar = avatarService.findAvatar(id);

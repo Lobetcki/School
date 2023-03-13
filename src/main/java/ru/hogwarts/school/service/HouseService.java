@@ -22,13 +22,11 @@ public class HouseService {
                                                                   // Created
     public FacultyDTO createdFaculty(FacultyDTO facultyDTO) {
         facultyDTO.setFacultyId(null);
-       // Faculty faculty = facultyDTO.toFaculty();
         return FacultyDTO.fromFaculty(facultyRepository.save(facultyDTO.toFaculty()));
     }
 
                                                                  // Updete
     public FacultyDTO updeteFaculty(FacultyDTO facultyDTO) {
-//        Faculty faculty = facultyDTO.toFaculty();
         return FacultyDTO.fromFaculty(facultyRepository.save(facultyDTO.toFaculty()));
     }
                                                                 // Delete
@@ -43,17 +41,11 @@ public class HouseService {
 
                                                                // Filter by color
     public List<FacultyDTO> filterByColorFaculty(String colory) {
-//        List<Faculty> faculties =
         return facultyRepository.findFacultiesByColorIgnoreCase(colory)
                 .stream().map(FacultyDTO::fromFaculty)
                 .collect(Collectors.toList());
-//        List<FacultyDTO> facultyDTOs = new ArrayList<>();
-//        for (Faculty f : facultyRepository.findFacultiesByColorIgnoreCase(colory)) {
-//            FacultyDTO facultyDTO = FacultyDTO.fromFaculty(f);
-//            facultyDTOs.add(facultyDTO);
-//        }
-//        return facultyDTOs;
     }
+
                                                             // Filter by name faculty
     public FacultyDTO findByNameFaculty(String nameFaculty) {
         return FacultyDTO.fromFaculty(facultyRepository.findByNameFacultyContainingIgnoreCase(nameFaculty));
@@ -65,11 +57,5 @@ public class HouseService {
                 .getStudents()
                 .stream().map(StudentDTO::fromStudent)
                 .collect(Collectors.toList());
-
-//        Faculty faculty = facultyRepository.findById(facultyId).get();
-//        List<Student> students = faculty.getStudents();
-//        return students.stream()
-//                .map(student -> StudentDTO.fromStudent(student))
-//                .collect(Collectors.toList());
     }
 }

@@ -5,11 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ru.hogwarts.school.dto.StudentDTO;
 import ru.hogwarts.school.model.Avatar;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.AvatarRepository;
-import ru.hogwarts.school.repositories.StudentRepository;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -36,9 +34,7 @@ public class AvatarService {
         this.avatarRepository = avatarRepository;
     }
 
-    //    return StudentDTO.fromStudent(studentRepository.findById(studentId).get());
     public void uploadAvatar(Long idStudent, MultipartFile avatarFile) throws IOException {
-//        StudentDTO studentDTO = StudentDTO.fromStudent(studentService.getStudent(idStudent).toStudent());
         Student student = studentService.getStudent(idStudent).toStudent();
 
         Path filePath = Path.of(avatarDir, idStudent + "." + (avatarFile.getOriginalFilename()
