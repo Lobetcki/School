@@ -20,7 +20,6 @@ public class Avatar {
     private String mediaType;
 
     @Lob
-    @Type(type="org.hibernate.type.BinaryType")
     private byte[] data;
 
     @OneToOne
