@@ -2,6 +2,7 @@ package ru.hogwarts.school.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -19,6 +20,7 @@ public class Avatar {
     private String mediaType;
 
     @Lob
+    @Type(type="org.hibernate.type.BinaryType")
     private byte[] data;
 
     @OneToOne
