@@ -7,7 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.dto.StudentDTO;
 import ru.hogwarts.school.model.Avatar;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.AvatarRepository;
+import ru.hogwarts.school.repositories.StudentRepository;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -34,10 +36,10 @@ public class AvatarService {
         this.avatarRepository = avatarRepository;
     }
 
-//    return StudentDTO.fromStudent(studentRepository.findById(studentId).get());
+    //    return StudentDTO.fromStudent(studentRepository.findById(studentId).get());
     public void uploadAvatar(Long idStudent, MultipartFile avatarFile) throws IOException {
-
-        StudentDTO studentDTO = StudentDTO.fromStudent(studentService.getStudent(idStudent).toStudent());
+//        StudentDTO studentDTO = StudentDTO.fromStudent(studentService.getStudent(idStudent).toStudent());
+        Student student = studentService.getStudent(idStudent).toStudent();
 
         Path filePath = Path.of(avatarDir, idStudent + "." + (avatarFile.getOriginalFilename()
                 .substring(avatarFile.getOriginalFilename().lastIndexOf(".") + 1)));
@@ -48,12 +50,12 @@ public class AvatarService {
              OutputStream os = Files.newOutputStream(filePath, CREATE_NEW); //  CREATE_NEW
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
              BufferedOutputStream bos = new BufferedOutputStream(os, 1024);
-             ){
+        ){
             bis.transferTo(bos);
         }
 
         Avatar avatar = avatarRepository.findByStudentIdStudent(idStudent).orElse(new Avatar());
-        avatar.setStudent(studentDTO.toStudent());
+        avatar.setStudent(student.getIdStudent());
         avatar.setFilePath(filePath.toString());
         avatar.setFileSize(avatarFile.getSize());
         avatar.setMediaType(avatarFile.getContentType());
@@ -84,5 +86,10 @@ public class AvatarService {
 
     private String getExtension(String fileName) {
     return fileName.substring(fileName.lastIndexOf(".") + 1);
+    }
+
+                                                                // GET
+    public Avatar findAvatar(Long studentId) {
+        return avatarRepository.findByStudentIdStudent(studentId).orElseThrow();
     }
 }
