@@ -55,7 +55,7 @@ public class AvatarService {
         }
 
         Avatar avatar = avatarRepository.findByStudentIdStudent(idStudent).orElse(new Avatar());
-        avatar.setStudent(student.getIdStudent());
+        avatar.setStudent(student);
         avatar.setFilePath(filePath.toString());
         avatar.setFileSize(avatarFile.getSize());
         avatar.setMediaType(avatarFile.getContentType());
