@@ -6,7 +6,6 @@ import ru.hogwarts.school.dto.FacultyDTO;
 import ru.hogwarts.school.dto.StudentDTO;
 import ru.hogwarts.school.service.HouseService;
 
-import java.util.Collection;
 import java.util.List;
 
 @RequestMapping("/faculty")

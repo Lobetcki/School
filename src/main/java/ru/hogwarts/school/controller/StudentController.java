@@ -4,14 +4,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.dto.FacultyDTO;
 import ru.hogwarts.school.dto.StudentDTO;
-import ru.hogwarts.school.model.Faculty;
-import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.StudentService;
 
-import javax.validation.constraints.Max;
 import java.util.Collection;
-import java.util.List;
-import java.util.Map;
 
 @RequestMapping("/students")
 @RestController
