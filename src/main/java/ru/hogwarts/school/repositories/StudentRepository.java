@@ -31,5 +31,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "SELECT * FROM student ORDER BY age_student ASC LIMIT 5", nativeQuery = true)
     List<Student> getStudentsYangByAgeStudent();
 
-    Collection<Student> findAll(Pageable pageable);
+    
 }

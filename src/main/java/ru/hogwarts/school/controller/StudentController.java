@@ -9,7 +9,9 @@ import ru.hogwarts.school.dto.StudentDTO;
 import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.StudentService;
 
-import java.awt.print.Pageable;
+import org.springframework.data.domain.Pageable;
+
+
 import java.util.Collection;
 import java.util.List;
 
