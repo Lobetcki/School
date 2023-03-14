@@ -25,13 +25,14 @@ public class StudentService {
         this.facultyRepository = facultyRepository;
     }
 
-                                                                // Get all Student
+
     public PageRequest pageRequest(Integer pageNumber, Integer pageSize) {
         if (pageSize == null || pageSize > 50 || pageSize <= 0) {
             pageSize = 50;
         }
         return PageRequest.of(pageNumber - 1, pageSize);
     }
+                                                                        // Get all Student
     public List<StudentDTO> getAllStudent(Integer pageNumber, Integer pageSize) {
 
         PageRequest pageRequest = pageRequest(pageNumber, pageSize);
