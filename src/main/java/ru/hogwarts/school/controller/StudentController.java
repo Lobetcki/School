@@ -72,7 +72,6 @@ public class StudentController {
                                                                @RequestParam("size") Integer pageSize ) {
 
         if (studentAge == null && max == null && min == null) {
-//             ResponseEntity.ok(studentService.getStudentsYangByAgeStudent());
             return ResponseEntity.ok(studentService.getStudentsYangByAgeStudent());
         }
         if (studentAge != null && (studentAge >= 0)) {

@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.hogwarts.school.dto.FacultyDTO;
@@ -53,6 +54,9 @@ public class HouseService {
     }
                                                             //Faculty's Students by faculty's id
     public List<StudentDTO> findStudentsByFacultyId(@RequestParam Long facultyId) {
+
+        //PageRequest pageRequest = StudentService.pageRequest(pageNumber, pageSize);
+
         return facultyRepository.findById(facultyId).get()
                 .getStudents()
                 .stream().map(StudentDTO::fromStudent)

@@ -65,7 +65,11 @@ public class HouseController {
     }
 
     @GetMapping ("/students/{facultyId}")                               //Faculty's Students by faculty's id
-    public ResponseEntity<List<StudentDTO>> findStudentsByFacultyId(@PathVariable Long facultyId) {
+    public ResponseEntity<List<StudentDTO>> findStudentsByFacultyId(@PathVariable Long facultyId,
+                                                                    @RequestParam("page") Integer pageNumber,
+                                                                    @RequestParam("size") Integer pageSize) {
+
+
         List<StudentDTO> students = houseService.findStudentsByFacultyId(facultyId);
         if (students == null) {
             return ResponseEntity.notFound().build();

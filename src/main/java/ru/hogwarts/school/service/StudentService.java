@@ -30,6 +30,9 @@ public class StudentService {
         if (pageSize == null || pageSize > 50 || pageSize <= 0) {
             pageSize = 50;
         }
+        if (pageNumber == null) {
+            pageNumber = 1;
+        }
         return PageRequest.of(pageNumber - 1, pageSize);
     }
                                                                         // Get all Student
