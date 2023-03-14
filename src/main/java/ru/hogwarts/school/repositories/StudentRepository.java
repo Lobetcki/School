@@ -12,9 +12,9 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
 
-    List<Student> findStudentByAgeStudent(Integer age);
+    List<Student> findStudentByAgeStudent(Integer age, PageRequest pageRequest);
 
-    List<Student> findByAgeStudentBetween(Integer min, Integer max);
+    List<Student> findByAgeStudentBetween(Integer min, Integer max, PageRequest pageRequest);
 
                                                                     //- Возможность получить количество всех студентов в школе. Эндпоинт должен вернуть число.
     @Query(value = "SELECT COUNT(id_student) AS count FROM student s", nativeQuery = true)

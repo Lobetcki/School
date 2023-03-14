@@ -26,9 +26,15 @@ public class StudentService {
     }
 
                                                                 // Get all Student
+    public PageRequest pageRequest(Integer pageNumber, Integer pageSize) {
+        if (pageSize == null || pageSize > 50 || pageSize <= 0) {
+            pageSize = 50;
+        }
+        return PageRequest.of(pageNumber - 1, pageSize);
+    }
     public List<StudentDTO> getAllStudent(Integer pageNumber, Integer pageSize) {
 
-        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
+        PageRequest pageRequest = pageRequest(pageNumber, pageSize);
 
         return studentRepository.findAll(pageRequest)
                 .stream().map(StudentDTO::fromStudent)
@@ -59,14 +65,20 @@ public class StudentService {
         return StudentDTO.fromStudent(studentRepository.findById(studentId).get());
     }
                                                                 // Filter by age
-    public List<StudentDTO> filterByAgeStudents(Integer age) {
-        return studentRepository.findStudentByAgeStudent(age)
+    public List<StudentDTO> filterByAgeStudents(Integer age, Integer pageNumber, Integer pageSize) {
+
+        PageRequest pageRequest = pageRequest(pageNumber, pageSize);
+
+        return studentRepository.findStudentByAgeStudent(age, pageRequest)
                 .stream().map(StudentDTO::fromStudent)
                 .collect(Collectors.toList());
     }
                                                          // Filter by age between min and max
-    public List<StudentDTO> findByAgeBetween(Integer min, Integer max) {
-        return studentRepository.findByAgeStudentBetween(min, max)
+    public List<StudentDTO> findByAgeBetween(Integer min, Integer max, Integer pageNumber, Integer pageSize) {
+
+        PageRequest pageRequest = pageRequest(pageNumber, pageSize);
+
+        return studentRepository.findByAgeStudentBetween(min, max, pageRequest)
                 .stream().map(StudentDTO::fromStudent)
                 .collect(Collectors.toList());
 

@@ -67,17 +67,19 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<Collection<StudentDTO>> findStudents(@RequestParam(required = false) Integer studentAge,
                                                               @RequestParam(required = false) Integer min,
-                                                              @RequestParam(required = false) Integer max) {
+                                                              @RequestParam(required = false) Integer max,
+                                                               @RequestParam("page") Integer pageNumber,
+                                                               @RequestParam("size") Integer pageSize ) {
 
         if (studentAge == null && max == null && min == null) {
-             ResponseEntity.ok(studentService.getStudentsYangByAgeStudent());
+//             ResponseEntity.ok(studentService.getStudentsYangByAgeStudent());
             return ResponseEntity.ok(studentService.getStudentsYangByAgeStudent());
         }
         if (studentAge != null && (studentAge >= 0)) {
-            return ResponseEntity.ok(studentService.filterByAgeStudents(studentAge));
+            return ResponseEntity.ok(studentService.filterByAgeStudents(pageNumber, pageSize, studentAge));
         }
         if ((min != null && (min >= 0) ) && (max != null && (max >= 0))) {
-            return ResponseEntity.ok(studentService.findByAgeBetween(min, max));
+            return ResponseEntity.ok(studentService.findByAgeBetween(pageNumber, pageSize, min, max));
         }
         return ResponseEntity.notFound().build();
     }
