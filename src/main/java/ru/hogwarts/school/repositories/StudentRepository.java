@@ -11,9 +11,10 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-
+                                                                        // Filter by age
     List<Student> findStudentByAgeStudent(Integer age, PageRequest pageRequest);
 
+                                                                        // Filter by age between min and max
     List<Student> findByAgeStudentBetween(Integer min, Integer max, PageRequest pageRequest);
 
                                                                     //- Возможность получить количество всех студентов в школе. Эндпоинт должен вернуть число.

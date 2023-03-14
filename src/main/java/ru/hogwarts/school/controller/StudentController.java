@@ -76,10 +76,10 @@ public class StudentController {
             return ResponseEntity.ok(studentService.getStudentsYangByAgeStudent());
         }
         if (studentAge != null && (studentAge >= 0)) {
-            return ResponseEntity.ok(studentService.filterByAgeStudents(pageNumber, pageSize, studentAge));
+            return ResponseEntity.ok(studentService.filterByAgeStudents(studentAge, pageNumber, pageSize));
         }
         if ((min != null && (min >= 0) ) && (max != null && (max >= 0))) {
-            return ResponseEntity.ok(studentService.findByAgeBetween(pageNumber, pageSize, min, max));
+            return ResponseEntity.ok(studentService.findByAgeBetween( min, max, pageNumber, pageSize));
         }
         return ResponseEntity.notFound().build();
     }
