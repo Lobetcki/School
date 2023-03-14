@@ -55,7 +55,8 @@ public class HouseService {
                                                             //Faculty's Students by faculty's id
     public List<StudentDTO> findStudentsByFacultyId(@RequestParam Long facultyId) {
 
-        //PageRequest pageRequest = StudentService.pageRequest(pageNumber, pageSize);
+//        PageRequest pageRequest = StudentService.pageRequest(pageNumber, pageSize);
+//        PageRequest pageRequest = StudentService.pageRequest(1, 5);
 
         return facultyRepository.findById(facultyId).get()
                 .getStudents()

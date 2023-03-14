@@ -9,6 +9,7 @@ import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
 import ru.hogwarts.school.repositories.StudentRepository;
 
+import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +27,7 @@ public class StudentService {
     }
 
 
-    public PageRequest pageRequest(Integer pageNumber, Integer pageSize) {
+    public static PageRequest pageRequest(Integer pageNumber, Integer pageSize) {
         if (pageSize == null || pageSize > 50 || pageSize <= 0) {
             pageSize = 50;
         }
@@ -36,11 +37,11 @@ public class StudentService {
         return PageRequest.of(pageNumber - 1, pageSize);
     }
                                                                         // Get all Student
-    public List<StudentDTO> getAllStudent(Integer pageNumber, Integer pageSize) {
+    public List<StudentDTO> getAllStudent(Pageable pageable) {
 
-        PageRequest pageRequest = pageRequest(pageNumber, pageSize);
+     //   PageRequest pageRequest = pageRequest(pageable);
 
-        return studentRepository.findAll(pageRequest)
+        return studentRepository.findAll(pageable)
                 .stream().map(StudentDTO::fromStudent)
                 .collect(Collectors.toList());
     }

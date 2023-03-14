@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import ru.hogwarts.school.model.Student;
 
+import java.awt.print.Pageable;
+import java.util.Collection;
 import java.util.List;
 
 @Repository
@@ -29,4 +31,5 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query(value = "SELECT * FROM student ORDER BY age_student ASC LIMIT 5", nativeQuery = true)
     List<Student> getStudentsYangByAgeStudent();
 
+    Collection<Student> findAll(Pageable pageable);
 }
