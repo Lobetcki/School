@@ -9,6 +9,7 @@ import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.Collection;
+import java.util.List;
 
 @RequestMapping("/students")
 @RestController
@@ -21,6 +22,13 @@ public class StudentController {
     public StudentController(StudentService studentService, AvatarService avatarService) {
         this.studentService = studentService;
         this.avatarService = avatarService;
+    }
+
+                                                                        // Get All Students
+    @GetMapping("/all")
+    public ResponseEntity<List<StudentDTO>> getAllStudent(@RequestParam("page") Integer pageNumber,
+                                                          @RequestParam("size") Integer pageSize) {
+        return ResponseEntity.ok(studentService.getAllStudent(pageNumber, pageSize));
     }
 
                                                                         // Created
@@ -84,8 +92,8 @@ public class StudentController {
     }
                                                                             // Count students, Average students, 5 yang students
     @GetMapping("/count-average-students")
-    public String getAvgAgeAndCountStudent () {
-        return "Count students: " + studentService.getStudentsCountByIdStudent() + ", "
-                + " Average students: " + studentService.getStudentsAverageByAgeStudent();
+    public ResponseEntity<String> getAvgAgeAndCountStudent () {
+        return ResponseEntity.ok("Count students: " + studentService.getStudentsCountByIdStudent() + ", "
+                + " Average students: " + studentService.getStudentsAverageByAgeStudent());
     }
 }
