@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.dto.FacultyDTO;
 import ru.hogwarts.school.dto.StudentDTO;
@@ -50,35 +51,40 @@ public class StudentService {
                                                                 // Filter by age
     public List<StudentDTO> filterByAgeStudents(Integer age) {
         return studentRepository.findStudentByAgeStudent(age)
-                .stream().map(student -> StudentDTO.fromStudent(student))
+                .stream().map(StudentDTO::fromStudent)
                 .collect(Collectors.toList());
-//        List<Student> students = studentRepository.findStudentByAgeStudent(age);
-//        List<StudentDTO> studentDTOs = new ArrayList<>();
-//        for (Student s : students) {
-//            StudentDTO studentDTO = StudentDTO.fromStudent(s);
-//            studentDTOs.add(studentDTO);
-//        }
-//        return studentDTOs; `
     }
                                                          // Filter by age between min and max
     public List<StudentDTO> findByAgeBetween(Integer min, Integer max) {
         return studentRepository.findByAgeStudentBetween(min, max)
-                .stream().map(student -> StudentDTO.fromStudent(student))
+                .stream().map(StudentDTO::fromStudent)
                 .collect(Collectors.toList());
 
-//        List<Student> students1 = studentRepository.findByAgeStudentBetween(min, max);
-//        List<StudentDTO> studentDTOs = new ArrayList<>();
-//        for (Student s : students1) {
-//            StudentDTO studentDTO = StudentDTO.fromStudent(s);
-//            studentDTOs.add(studentDTO);
-//        }
-//        return studentDTOs;
     }
                                                               // student's  Faculty by studentId
     public FacultyDTO getFacultyByStudentId(Long studentId) {
         StudentDTO studentDTO = StudentDTO.fromStudent(studentRepository.findById(studentId).get());
         return FacultyDTO.fromFaculty(facultyRepository.findById(studentDTO.getFacultyID()).orElse(null));
     }
+
+                                               //- Возможность получить количество всех студентов в школе. Эндпоинт должен вернуть число.
+    public Long getStudentsCountByIdStudent() {
+        return studentRepository.getStudentsCountByIdStudent();
+    }
+
+                                                // - Возможность получить средний возраст студентов. Эндпоинт должен вернуть число.
+    public Integer getStudentsAverageByAgeStudent() {
+        return studentRepository.getStudentsAverageByAgeStudent();
+    }
+
+                                                 //- Возможность получить пять самых молодых студентов.
+     public List<StudentDTO> getStudentsYangByAgeStudent() {
+        return studentRepository.getStudentsYangByAgeStudent()
+                .stream().map(StudentDTO::fromStudent)
+                .collect(Collectors.toList());
+     }
+
+
 
 }
 

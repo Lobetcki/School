@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,8 +19,9 @@ import java.nio.file.Path;
 @RestController
 public class AvatarController {
 
-private final AvatarService avatarService;
+    private final AvatarService avatarService;
 
+    @Autowired
     public AvatarController(AvatarService avatarService) {
         this.avatarService = avatarService;
     }

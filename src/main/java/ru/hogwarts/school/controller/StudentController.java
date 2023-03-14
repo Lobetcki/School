@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.dto.FacultyDTO;
@@ -16,6 +17,7 @@ public class StudentController {
     private final StudentService studentService;
     private final AvatarService avatarService;
 
+    @Autowired
     public StudentController(StudentService studentService, AvatarService avatarService) {
         this.studentService = studentService;
         this.avatarService = avatarService;
@@ -58,10 +60,14 @@ public class StudentController {
     public ResponseEntity<Collection<StudentDTO>> findStudents(@RequestParam(required = false) Integer studentAge,
                                                               @RequestParam(required = false) Integer min,
                                                               @RequestParam(required = false) Integer max) {
+
+        if (studentAge == null && max == null && min == null) {
+             ResponseEntity.ok(studentService.getStudentsYangByAgeStudent());
+            return ResponseEntity.ok(studentService.getStudentsYangByAgeStudent());
+        }
         if (studentAge != null && (studentAge >= 0)) {
             return ResponseEntity.ok(studentService.filterByAgeStudents(studentAge));
         }
-
         if ((min != null && (min >= 0) ) && (max != null && (max >= 0))) {
             return ResponseEntity.ok(studentService.findByAgeBetween(min, max));
         }
@@ -76,5 +82,10 @@ public class StudentController {
         }
         return ResponseEntity.ok(getFaculty);
     }
-
+                                                                            // Count students, Average students, 5 yang students
+    @GetMapping("/count-average-students")
+    public String getAvgAgeAndCountStudent () {
+        return "Count students: " + studentService.getStudentsCountByIdStudent() + ", "
+                + " Average students: " + studentService.getStudentsAverageByAgeStudent();
+    }
 }

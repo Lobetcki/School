@@ -28,6 +28,12 @@ public class AvatarService {
     private final StudentService studentService;
     private final AvatarRepository avatarRepository;
 
+//    public AvatarService(String avatarDir, StudentService studentService, AvatarRepository avatarRepository) {
+//        this.avatarDir = avatarDir;
+//        this.studentService = studentService;
+//        this.avatarRepository = avatarRepository;
+//    }
+
     @Autowired
     public AvatarService(StudentService studentService, AvatarRepository avatarRepository) {
         this.studentService = studentService;

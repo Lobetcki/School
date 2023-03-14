@@ -14,6 +14,7 @@ public class HouseController {
 
     private final HouseService houseService;
 
+
     public HouseController(HouseService houseService) {
         this.houseService = houseService;
     }
