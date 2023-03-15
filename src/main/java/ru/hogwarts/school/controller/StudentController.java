@@ -66,7 +66,7 @@ public class StudentController {
         return ResponseEntity.ok(getStudent);
     }
 
-                                                                            // Filter by age between min and max
+                                                                            // Filter by age between min and max, 5 yang students
     @GetMapping
     public ResponseEntity<Collection<StudentDTO>> findStudents(@RequestParam(required = false) Integer studentAge,
                                                               @RequestParam(required = false) Integer min,
@@ -94,7 +94,7 @@ public class StudentController {
         }
         return ResponseEntity.ok(getFaculty);
     }
-                                                                            // Count students, Average students, 5 yang students
+                                                                            // Count students, Average students,
     @GetMapping("/count-average-students")
     public ResponseEntity<String> getAvgAgeAndCountStudent () {
         return ResponseEntity.ok("Count students: " + studentService.getStudentsCountByIdStudent() + ", "
