@@ -11,4 +11,4 @@ CREATE TABLE faculty
 
 -- changeset anton:1.1
 ALTER  TABLE  hogwarts.public.faculty
-    ADD  CONSTRAINT  name_faculty  UNIQUE CLUSTERED  (id, name)  USING  INDEX  `A String`;
+    ADD  CONSTRAINT  constr_faculty  UNIQUE (name_faculty);

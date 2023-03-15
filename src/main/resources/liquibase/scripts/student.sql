@@ -14,7 +14,4 @@ CREATE TABLE student
 
 -- changeset anton:2.1
 alter table  hogwarts.public.student
-    add constraint age_student check (age_student > 15);
-
-ALTER  TABLE  hogwarts.public.student
-    ADD  CONSTRAINT  const_name  UNIQUE CLUSTERED  (id, name)  USING  INDEX  `A String`;
+    add constraint constr_age_student check (age_student > 15);
