@@ -24,7 +24,7 @@ public class StudentService {
     private final FacultyRepository facultyRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
-}
+
 
     @Autowired
     public StudentService(StudentRepository studentRepository, FacultyRepository facultyRepository) {
@@ -59,21 +59,24 @@ public class StudentService {
         studentDTO.setIdStudent(null);
         Student student = studentDTO.toStudent();
         student.setFaculty(facultyRepository.findById(studentDTO.getFacultyID()).get());
+        logger.debug("Student add faculty in method 'Created'");
         return StudentDTO.fromStudent(studentRepository.save(student));
     }
 
-                                                               // Updete
-    public StudentDTO updeteStudent(StudentDTO studentDTO) {
+                                                               // Update
+    public StudentDTO updateStudent(StudentDTO studentDTO) {
         logger.info("Was invoked method for update student");
 
         Student student = studentDTO.toStudent();
         student.setFaculty(facultyRepository.findById(studentDTO.getFacultyID()).get());
+        logger.debug("Student add faculty in method 'Update'");
         return StudentDTO.fromStudent(studentRepository.save(student));
     }
                                                                   // Delete
     public void deleteStudent(Long studentId) {
         logger.info("Was invoked method for delete student");
         studentRepository.deleteById(studentId);
+
     }
 
                                                                 // Get

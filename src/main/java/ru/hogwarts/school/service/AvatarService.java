@@ -1,5 +1,7 @@
 package ru.hogwarts.school.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 @Transactional
 public class AvatarService {
 
+    private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
+
     @Value("${student.avatar.dir.path}")
     private String avatarDir;
 
@@ -41,6 +45,8 @@ public class AvatarService {
     }
 
     public void uploadAvatar(Long idStudent, MultipartFile avatarFile) throws IOException {
+        logger.info("Was invoked method 'uploadAvatar'");
+
         Student student = studentService.getStudent(idStudent).toStudent();
 
         Path filePath = Path.of(avatarDir, idStudent + "." + (avatarFile.getOriginalFilename()
@@ -68,6 +74,8 @@ public class AvatarService {
     }
 
     private byte[] generateImagePreview(Path filePath) throws IOException{
+        logger.info("Was invoked method 'generateImagePreview'");
+
         try (InputStream is = Files.newInputStream(filePath);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
              ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
@@ -87,11 +95,13 @@ public class AvatarService {
 
 
     private String getExtension(String fileName) {
-    return fileName.substring(fileName.lastIndexOf(".") + 1);
+        logger.info("Was invoked method 'getExtension'");
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
     }
 
                                                                 // GET
     public Avatar findAvatar(Long studentId) {
+        logger.info("Was invoked method 'findAvatar'");
         return avatarRepository.findByStudentIdStudent(studentId).orElseThrow();
     }
 }

@@ -46,7 +46,7 @@ public class StudentController {
                                                                         // Updete
     @PutMapping()
     public ResponseEntity<StudentDTO> updeteStudent(@RequestBody StudentDTO studentDTO) {
-        StudentDTO updeteStudent = studentService.updeteStudent(studentDTO);
+        StudentDTO updeteStudent = studentService.updateStudent(studentDTO);
         return ResponseEntity.ok(updeteStudent);
     }
 
