@@ -11,11 +11,11 @@ public class AppInfoDTO {
     private String appEnvironment;
 
 
-    public static AppInfoDTO fromAppInfo() {
+    public static AppInfoDTO fromAppInfo(AppInfo appInfo) {
         AppInfoDTO dto = new AppInfoDTO();
         dto.setAppName(AppInfo.APP_NAME);
         dto.setAppVersion(AppInfo.APP_VERSION);
-        dto.setAppEnvironment(AppInfo.APP_ENVIRONMENT);
+        dto.setAppEnvironment(appInfo.getAppEnvironment());
         return dto;
     }
 
