@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import io.swagger.v3.oas.annotations.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class StudentController {
 
                                                                         // Get All Students
     @GetMapping("/all")
+   // @Parameters
     public ResponseEntity<List<StudentDTO>> getAllStudent(@PageableDefault(size = 50) Pageable pageable) {
         return ResponseEntity.ok(studentService.getAllStudent(pageable));
     }
