@@ -13,17 +13,21 @@ public class FacultyDTO {
 
     public static FacultyDTO fromFaculty(Faculty faculty) {
         FacultyDTO dto = new FacultyDTO();
+
         dto.setFacultyId(faculty.getFacultyId());
         dto.setNameFaculty(faculty.getNameFaculty());
         dto.setColor(faculty.getColor());
+
         return dto;
     }
 
     public Faculty toFaculty() {
         Faculty faculty = new Faculty();
+
         faculty.setFacultyId(this.getFacultyId());
         faculty.setNameFaculty(this.getNameFaculty());
         faculty.setColor(this.getColor());
+
         return faculty;
     }
 

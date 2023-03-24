@@ -11,4 +11,4 @@ CREATE TABLE avatar
     student_id_student bigint,
     primary key (id),
     foreign key (student_id_student) references hogwarts.public.student (id_student)
-)
+);
