@@ -67,6 +67,7 @@ public class StudentControllerTest {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("name", "test_name");
 
+
         mockMvc.perform(post("/user")
                         .contentType(MediaType.APPLICATION_JSON)
                         .contentType(jsonObject.toString()))
