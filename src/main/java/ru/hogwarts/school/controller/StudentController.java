@@ -29,7 +29,7 @@ public class StudentController {
         this.avatarService = avatarService;
     }
 
-                                                                        // Get All Students
+                                                 // Get All Students
     @GetMapping("/all")
    // @Parameters
     public ResponseEntity<List<StudentDTO>> getAllStudent(@PageableDefault(size = 50) Pageable pageable) {
