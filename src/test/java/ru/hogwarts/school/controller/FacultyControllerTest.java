@@ -170,5 +170,4 @@ public class FacultyControllerTest {
                 .andExpect(jsonPath("$[0].ageStudent").value(20))
                 .andExpect(jsonPath("$[0].facultyID").value(1));
     }
-
 }
