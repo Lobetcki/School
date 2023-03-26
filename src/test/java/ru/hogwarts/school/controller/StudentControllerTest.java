@@ -90,7 +90,7 @@ public class StudentControllerTest {
                 .andExpect(jsonPath("$.ageStudent").value(25))
                 .andExpect(jsonPath("$.facultyID").value(1L));
 
-        mockMvc.perform(get("/students/all" ))
+        mockMvc.perform(get("/students/all"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(2))
