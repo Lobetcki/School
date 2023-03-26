@@ -41,14 +41,14 @@ public class StudentController {
     }
 
                                                                         // Updete
-    @PutMapping()
-    public ResponseEntity<StudentDTO> updeteStudent(@RequestBody StudentDTO studentDTO) {
-        StudentDTO updeteStudent = studentService.updateStudent(studentDTO);
-        return ResponseEntity.ok(updeteStudent);
+    @PutMapping(value = "/update")
+    public ResponseEntity<StudentDTO> updateStudent(@RequestBody StudentDTO studentDTO) {
+        StudentDTO updateStudent = studentService.updateStudent(studentDTO);
+        return ResponseEntity.ok(updateStudent);
     }
 
                                                                          // Delete
-    @DeleteMapping("/{studentId}")
+    @DeleteMapping("/delete/{studentId}")
     public ResponseEntity deleteStudent(@PathVariable Long studentId) {
         studentService.deleteStudent(studentId);
         return ResponseEntity.ok().build();
