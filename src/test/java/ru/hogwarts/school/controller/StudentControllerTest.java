@@ -1,7 +1,5 @@
 package ru.hogwarts.school.controller;
 
-//import static org.springframework.http.RequestEntity.post;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
@@ -22,13 +20,10 @@ import ru.hogwarts.school.service.StudentService;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-//import ru.hogwarts.school.service.AvatarService;
-//import ru.hogwarts.school.dto.StudentDTO;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-//@WebMvcTest(StudentController.class)
 public class StudentControllerTest {
 
     @Autowired
@@ -45,20 +40,12 @@ public class StudentControllerTest {
     StudentController studentController;
     @Autowired
     MockMvc mockMvc;
-    //    @MockBean
-//    @Autowired
-//    AvatarService avatarService;
-
-//    @Autowired
-//    StudentDTO studentDTO;
-
-//    @Autowired
-//    private WebApplicationContext context;
     Student student;
+    Faculty faculty;
 
     @BeforeEach
     public void setUp() {
-        Faculty faculty = new Faculty();
+        faculty = new Faculty();
         faculty.setNameFaculty("Dwarf");
         faculty.setColor("Black");
         facultyRepository.save(faculty);
@@ -77,10 +64,6 @@ public class StudentControllerTest {
 
     @Test
     void whenGetAllStudentsAreCalL() throws Exception {
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("nameStudent", "test_name");
-//        jsonObject.put("ageStudent", 20);
-//        jsonObject.put("facultyID", 1);
 
         mockMvc.perform(get("/students/all"))
             .andExpect(status().isOk())
@@ -89,21 +72,14 @@ public class StudentControllerTest {
     }
 
     @Test
-    void givenNoStudentsInDatabase_whenStudentAdded_thenItExistsInList() throws Exception {
-
-        studentRepository.deleteAll();
-
-        mockMvc.perform(get("/students/all"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$").isEmpty());
+    void whenCreatedStudent() throws Exception {
 
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("nameStudent", "test_name2");
         jsonObject.put("ageStudent", 25);
-        jsonObject.put("facultyID", 2L);
+        jsonObject.put("facultyID", 1L);
 
-        this.mockMvc.perform(post("/students/created")
+        mockMvc.perform(post("/students/created")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject.toString()))
                 .andExpect(status().isOk())
@@ -111,15 +87,15 @@ public class StudentControllerTest {
                 .andExpect(jsonPath("$.idStudent").isNumber())
                 .andExpect(jsonPath("$.nameStudent").value("test_name2"))
                 .andExpect(jsonPath("$.ageStudent").value(25))
-                .andExpect(jsonPath("$.facultyID").value(2L));
+                .andExpect(jsonPath("$.facultyID").value(1L));
 
         mockMvc.perform(get("/students/all" ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].nameStudent").value("test_name2"))
-                .andExpect(jsonPath("$[0].ageStudent").value(25))
-                .andExpect(jsonPath("$[0].facultyID").value(2));
+                .andExpect(jsonPath("$.length()").value(2))
+                .andExpect(jsonPath("$[1].nameStudent").value("test_name2"))
+                .andExpect(jsonPath("$[1].ageStudent").value(25))
+                .andExpect(jsonPath("$[1].facultyID").value(1));
     }
 
     @Test
@@ -168,41 +144,67 @@ public class StudentControllerTest {
     @Test
     void whenStudentDelete() throws Exception {
 
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("nameStudent", "test_name");
-//        jsonObject.put("ageStudent", 20);
-//        jsonObject.put("facultyID", 1L);
-//
-//        this.mockMvc.perform(post("/students/created")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(jsonObject.toString()))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.idStudent").isNotEmpty())
-//                .andExpect(jsonPath("$.idStudent").isNumber())
-//                .andExpect(jsonPath("$.nameStudent").value("test_name"))
-//                .andExpect(jsonPath("$.ageStudent").value(20))
-//                .andExpect(jsonPath("$.facultyID").value(1L));
-
-        this.mockMvc.perform(delete("/students/delete/1") //+ student.getIdStudent())
+        this.mockMvc.perform(delete("/students/delete/" + student.getIdStudent())
                         .contentType(MediaType.APPLICATION_JSON)
-                        //.content(jsonObject.toString()))
             ).andExpect(status().isOk());
-
-        mockMvc.perform(get("/students/all"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$").isEmpty());
     }
 
     @Test
-    void whenGetStudent() throws Exception {
+    void whenGetStudentById() throws Exception {
 
-        mockMvc.perform(get("/" + student.getIdStudent()))
+        mockMvc.perform(get("/students/" + student.getIdStudent()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.idStudent").value(student.getIdStudent()))
                 .andExpect(jsonPath("$.nameStudent").value(student.getNameStudent()))
                 .andExpect(jsonPath("$.ageStudent").value(student.getAgeStudent()))
-                .andExpect(jsonPath("$.faculty").value(student.getFaculty()));
+                .andExpect(jsonPath("$.facultyID").value(student.getFaculty().getFacultyId()));
+    }
+
+    @Test
+    void whenFindStudents() throws Exception {
+
+        mockMvc.perform(get("/students?studentAge=20&page=1&size=10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].nameStudent").value("test_name"))
+                .andExpect(jsonPath("$[0].ageStudent").value(20))
+                .andExpect(jsonPath("$[0].facultyID").value(1));
+
+        mockMvc.perform(get("/students?min=2&max=30&page=1&size=10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].nameStudent").value("test_name"))
+                .andExpect(jsonPath("$[0].ageStudent").value(20))
+                .andExpect(jsonPath("$[0].facultyID").value(1));
+
+        mockMvc.perform(get("/students?page=1&size=10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].nameStudent").value("test_name"))
+                .andExpect(jsonPath("$[0].ageStudent").value(20))
+                .andExpect(jsonPath("$[0].facultyID").value(1));
+    }
+
+    @Test
+    void whenGetFacultyByStudentId() throws Exception {
+        mockMvc.perform(get("/students/faculty/" + student.getIdStudent()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.facultyId").value(faculty.getFacultyId()))
+                .andExpect(jsonPath("$.nameFaculty").value(faculty.getNameFaculty()))
+                .andExpect(jsonPath("$.color").value(faculty.getColor()));
+    }
+
+    @Test
+    void whenGetAvgAgeAndCountStudent() throws Exception  {
+
+        mockMvc.perform(get("/students/count-average-students"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$")
+                        .value("Count students: " + 1 + ", "
+                                + " Average students: " + 20));
     }
 
 

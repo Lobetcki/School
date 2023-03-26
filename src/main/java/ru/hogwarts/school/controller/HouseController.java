@@ -20,7 +20,7 @@ public class HouseController {
     }
 
                                                                      // Created
-    @PostMapping
+    @PostMapping("/created")
     public ResponseEntity createdFaculty(@RequestBody FacultyDTO facultyDTO) {
         FacultyDTO createdFaculty = houseService.createdFaculty(facultyDTO);
         return ResponseEntity.ok(createdFaculty);

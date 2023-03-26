@@ -69,6 +69,7 @@ public class StudentController {
     @GetMapping
     public ResponseEntity<Collection<StudentDTO>> findStudents(@RequestParam(required = false) Integer studentAge,
                                                               @RequestParam(required = false) Integer min,
+
                                                               @RequestParam(required = false) Integer max,
                                                                @RequestParam("page") Integer pageNumber,
                                                                @RequestParam("size") Integer pageSize ) {
