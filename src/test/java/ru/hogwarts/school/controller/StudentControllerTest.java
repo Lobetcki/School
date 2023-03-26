@@ -60,6 +60,7 @@ public class StudentControllerTest {
     @AfterEach
     public void tearDown() {
         studentRepository.deleteAll();
+        facultyRepository.deleteAll();
     }
 
     @Test
@@ -99,21 +100,7 @@ public class StudentControllerTest {
     }
 
     @Test
-    void givenNoStudentsInDatabase_whenStudentUpdate_thenItExistsInList() throws Exception {
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("nameStudent", "test_name");
-//        jsonObject.put("ageStudent", 20);
-//        jsonObject.put("facultyID", 1L);
-
-//        this.mockMvc.perform(post("/students/created")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//                        .content(jsonObject.toString()))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.idStudent").isNotEmpty())
-//                .andExpect(jsonPath("$.idStudent").isNumber())
-//                .andExpect(jsonPath("$.nameStudent").value("test_name"))
-//                .andExpect(jsonPath("$.ageStudent").value(20))
-//                .andExpect(jsonPath("$.facultyID").value(1L));
+    void whenStudentUpdate() throws Exception {
 
         JSONObject jsonObject1 = new JSONObject();
 
@@ -144,9 +131,14 @@ public class StudentControllerTest {
     @Test
     void whenStudentDelete() throws Exception {
 
-        this.mockMvc.perform(delete("/students/delete/" + student.getIdStudent())
-                        .contentType(MediaType.APPLICATION_JSON)
-            ).andExpect(status().isOk());
+        this.mockMvc.perform(delete("/students/delete/1") //+ student.getIdStudent())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+//        mockMvc.perform(get("/students/1") //+ student.getIdStudent()))
+//                        .contentType(MediaType.APPLICATION_JSON))
+//                .andExpect(status().isNotFound());
+
     }
 
     @Test

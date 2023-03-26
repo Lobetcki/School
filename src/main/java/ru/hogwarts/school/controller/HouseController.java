@@ -27,21 +27,21 @@ public class HouseController {
     }
 
                                                                       // Updete
-    @PutMapping()
-    public ResponseEntity<FacultyDTO> updeteFaculty(@RequestBody FacultyDTO facultyDTO) {
-        FacultyDTO updeteFaculty = houseService.updeteFaculty(facultyDTO);
-        return ResponseEntity.ok(updeteFaculty);
+    @PutMapping("/update")
+    public ResponseEntity<FacultyDTO> updateFaculty(@RequestBody FacultyDTO facultyDTO) {
+        FacultyDTO updateFaculty = houseService.updeteFaculty(facultyDTO);
+        return ResponseEntity.ok(updateFaculty);
     }
 
                                                                         // Delete
-    @DeleteMapping("/{facultyId}")
+    @DeleteMapping("/delete/{facultyId}")
     public ResponseEntity deleteFaculty(@PathVariable Long facultyId) {
         houseService.deleteFaculty(facultyId);
         return ResponseEntity.ok().build();
     }
 
                                                                     // Get
-    @GetMapping("/{facultyId}")
+    @GetMapping("/get/{facultyId}")
     public ResponseEntity<FacultyDTO> getFaculty(@PathVariable Long facultyId) {
         FacultyDTO getFaculty = houseService.getFacultyDTO(facultyId);
         if (getFaculty == null) {

@@ -17,8 +17,7 @@ import ru.hogwarts.school.repositories.FacultyRepository;
 import ru.hogwarts.school.repositories.StudentRepository;
 import ru.hogwarts.school.service.StudentService;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -63,32 +62,104 @@ public class FacultyControllerTest {
     @AfterEach
     public void tearDown() {
         studentRepository.deleteAll();
+        facultyRepository.deleteAll();
     }
 
     @Test
     void whenCreatedFaculty() throws Exception {
 
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("nameStudent", "test_name2");
-        jsonObject.put("ageStudent", 25);
-        jsonObject.put("facultyID", 1L);
+        jsonObject.put("nameFaculty", "test_name2");
+        jsonObject.put("color", "Red");
 
         mockMvc.perform(post("/faculty/created")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.idStudent").isNotEmpty())
-                .andExpect(jsonPath("$.idStudent").isNumber())
-                .andExpect(jsonPath("$.nameStudent").value("test_name2"))
-                .andExpect(jsonPath("$.ageStudent").value(25))
-                .andExpect(jsonPath("$.facultyID").value(1L));
+                .andExpect(jsonPath("$.facultyId").isNotEmpty())
+                .andExpect(jsonPath("$.facultyId").isNumber())
+                .andExpect(jsonPath("$.nameFaculty").value("test_name2"))
+                .andExpect(jsonPath("$.color").value("Red"));
 
-        mockMvc.perform(get("/students/all" ))
+        mockMvc.perform(get("/faculty/get/2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.facultyId").value(2))
+                .andExpect(jsonPath("$.nameFaculty").value("test_name2"))
+                .andExpect(jsonPath("$.color").value("Red"));
+    }
+
+    @Test
+    void whenFacultyUpdate() throws Exception {
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("facultyId", 1);
+        jsonObject.put("nameFaculty", "test_name2");
+        jsonObject.put("color", "Red");
+
+        this.mockMvc.perform(put("/faculty/update")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(jsonObject.toString()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.facultyId").value(1))
+                .andExpect(jsonPath("$.nameFaculty").value("test_name2"))
+                .andExpect(jsonPath("$.color").value("Red"));
+
+        mockMvc.perform(get("/faculty/get/" + faculty.getFacultyId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.facultyId").value(faculty.getFacultyId()))
+                .andExpect(jsonPath("$.nameFaculty").value("test_name2"))
+                .andExpect(jsonPath("$.color").value("Red"));
+    }
+
+    @Test
+    void whenDeleteFaculty() throws Exception {
+        studentRepository.deleteAll();
+        this.mockMvc.perform(delete("/faculty/delete/" + faculty.getFacultyId())
+                .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk());
+
+//        mockMvc.perform(get("/faculty/get/1")) //+ faculty.getFacultyId()))
+//                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void whenGetFacultyById() throws Exception {
+
+        mockMvc.perform(get("/faculty/get/" + faculty.getFacultyId()))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.facultyId").value(faculty.getFacultyId()))
+                .andExpect(jsonPath("$.nameFaculty").value(faculty.getNameFaculty()))
+                .andExpect(jsonPath("$.color").value(faculty.getColor()));
+
+        studentRepository.deleteAll();
+        facultyRepository.delete(faculty);
+
+        mockMvc.perform(get("/faculty/get/" + faculty.getFacultyId()))
+                .andExpect(status().is4xxClientError());
+
+    }
+
+    @Test
+    void whenFindStudents() throws Exception {
+
+        mockMvc.perform(get("/students?studentAge=20&page=1&size=10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[1].nameStudent").value("test_name2"))
-                .andExpect(jsonPath("$[1].ageStudent").value(25))
-                .andExpect(jsonPath("$[1].facultyID").value(1));
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].nameStudent").value("test_name"))
+                .andExpect(jsonPath("$[0].ageStudent").value(20))
+                .andExpect(jsonPath("$[0].facultyID").value(1));
+
+        mockMvc.perform(get("/students?min=2&max=30&page=1&size=10"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].nameStudent").value("test_name"))
+                .andExpect(jsonPath("$[0].ageStudent").value(20))
+                .andExpect(jsonPath("$[0].facultyID").value(1));
+
     }
+
+
+
 }
