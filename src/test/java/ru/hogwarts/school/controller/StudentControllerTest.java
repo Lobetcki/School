@@ -1,27 +1,26 @@
 package ru.hogwarts.school.controller;
 
+//import static org.springframework.http.RequestEntity.post;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.minidev.json.JSONObject;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
-import ru.hogwarts.school.model.Avatar;
-import ru.hogwarts.school.service.AvatarService;
-import ru.hogwarts.school.service.StudentService;
+import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.repositories.FacultyRepository;
 
-import static org.springframework.http.RequestEntity.post;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+//import ru.hogwarts.school.service.AvatarService;
+//import ru.hogwarts.school.dto.StudentDTO;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -29,58 +28,74 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 //@WebMvcTest(StudentController.class)
 public class StudentControllerTest {
 
-
-//    @MockBean
-//    @Autowired
-//    private StudentService studentService;
     @Autowired
     ObjectMapper objectMapper;
 
-//    @MockBean
     @Autowired
-    AvatarService avatarService;
+    FacultyRepository facultyRepository;
+
     @Autowired
     StudentController studentController;
-
     @Autowired
     MockMvc mockMvc;
 
-//    @BeforeEach
-//    void setUp() {
-//
-//    }
+    //    @MockBean
+//    @Autowired
+//    AvatarService avatarService;
+
+//    @Autowired
+//    StudentDTO studentDTO;
+
+//    @Autowired
+//    private WebApplicationContext context;
+
+    @BeforeEach
+    void setUp() {
+        Faculty faculty = new Faculty();
+        faculty.setNameFaculty("Dwarf");
+        faculty.setColor("Black");
+        facultyRepository.save(faculty);
+    }
 
 //    @Test
 //    void whenGetAllStudentsAreCalL() throws Exception {
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("nameStudent", "test_name");
+//        jsonObject.put("ageStudent", 20);
+//        jsonObject.put("facultyID", 1);
 //
-//        mockMvc.perform(get("/all"))
+//        mockMvc.perform(get("/students/all"))
 //            .andExpect(status().isOk())
-//
-////            .andExpect((ResultMatcher) jsonPath("$").isMap())
-////            .andExpect(jsonPath("$").isEmpty())
-//        ;
-//        }
+//            .andExpect(jsonPath("$").isMap())
+//            .andExpect(jsonPath("$").isEmpty());
 //    }
 
     @Test
-    void givenNoUsersInDatabase_whenUserAdded_thenItExistsInList() throws Exception {
+    void givenNoStudentsInDatabase_whenUserAdded_thenItExistsInList() throws Exception {
+
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("name", "test_name");
+        jsonObject.put("nameStudent", "test_name");
+        jsonObject.put("ageStudent", 20);
+        jsonObject.put("facultyID", 1L);
 
-
-        mockMvc.perform(post("/user")
+        this.mockMvc.perform(post("/students/created")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .contentType(jsonObject.toString()))
+                        .content(jsonObject.toString()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").isNotEmpty())
-                .andExpect(jsonPath("$.id").isNumber())
-                .andExpect(jsonPath("$.name").value("test_name"));
+                .andExpect(jsonPath("$.idStudent").isNotEmpty())
+                .andExpect(jsonPath("$.idStudent").isNumber())
+                .andExpect(jsonPath("$.nameStudent").value("test_name"));
+//                .andExpect(jsonPath("$.ageStudent").value(20))
+//                .andExpect(jsonPath("$.facultyID").value(1L));
 
-        mockMvc.perform(get("/user"))
+        mockMvc.perform(get("/students/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[0].name").value("test_name"));
+//                .andExpect(jsonPath("$[0].ageStudent").value(20))
+//                .andExpect(jsonPath("$[0].facultyID").value(1));
     }
+}
 
 

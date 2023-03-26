@@ -15,8 +15,8 @@ public class Faculty {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "faculty_id")
     private Long facultyId;
-    private String nameFaculty;
     private String color;
+    private String nameFaculty;
 
     @OneToMany(mappedBy = "faculty")
     private List<Student> students;

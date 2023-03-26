@@ -10,4 +10,4 @@ CREATE TABLE avatar
     media_type VARCHAR(255),
     student_id_student bigint,
     foreign key (student_id_student) references student(id_student)
-)
+);

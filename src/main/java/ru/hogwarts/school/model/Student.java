@@ -14,8 +14,8 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_student")
     private Long idStudent;
-    private String nameStudent;
     private Integer ageStudent;
+    private String nameStudent;
 
 //    @OneToOne
 //    @JoinColumn(name = "avatar_id")

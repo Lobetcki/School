@@ -1,7 +1,6 @@
 -- liquibase formatted sql
 
 -- changeset anton:2
-
 CREATE TABLE student
 (
     id_student BIGSERIAL PRIMARY KEY,

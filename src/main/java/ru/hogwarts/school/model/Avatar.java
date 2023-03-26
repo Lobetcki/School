@@ -15,13 +15,15 @@ public class Avatar {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    private String filePath;
-    private long fileSize;
-    private String mediaType;
 
     @Lob
     @Type(type ="org.hibernate.type.BinaryType")
     private byte[] data;
+    private String filePath;
+    private long fileSize;
+    private String mediaType;
+
+
 
     @OneToOne
    // @JoinColumn(name = "id_student")

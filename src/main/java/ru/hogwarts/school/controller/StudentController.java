@@ -1,7 +1,7 @@
 package ru.hogwarts.school.controller;
 
-import io.swagger.v3.oas.annotations.Parameters;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,9 +9,6 @@ import ru.hogwarts.school.dto.FacultyDTO;
 import ru.hogwarts.school.dto.StudentDTO;
 import ru.hogwarts.school.service.AvatarService;
 import ru.hogwarts.school.service.StudentService;
-
-import org.springframework.data.domain.Pageable;
-
 
 import java.util.Collection;
 import java.util.List;
@@ -37,7 +34,7 @@ public class StudentController {
     }
 
                                                                         // Created
-    @PostMapping
+    @PostMapping(value = "/created")
     public ResponseEntity<StudentDTO> createdStudent(@RequestBody StudentDTO studentDTO) {
         StudentDTO createdStudent = studentService.createdStudent(studentDTO);
         return ResponseEntity.ok(createdStudent);
