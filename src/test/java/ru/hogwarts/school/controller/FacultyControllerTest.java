@@ -17,6 +17,8 @@ import ru.hogwarts.school.repositories.FacultyRepository;
 import ru.hogwarts.school.repositories.StudentRepository;
 import ru.hogwarts.school.service.StudentService;
 
+import java.util.Collections;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -131,16 +133,17 @@ public class FacultyControllerTest {
                 .andExpect(jsonPath("$.nameFaculty").value(faculty.getNameFaculty()))
                 .andExpect(jsonPath("$.color").value(faculty.getColor()));
 
-//        studentRepository.deleteAll();
-//        facultyRepository.delete(faculty);
+        studentRepository.deleteAll();
+        faculty.setStudents(Collections.emptyList());
+        facultyRepository.delete(faculty);
 
-//        mockMvc.perform(get("/faculty/get/" + faculty.getFacultyId()))
-//                .andExpect(status().is4xxClientError());
+        this.mockMvc.perform(get("/faculty/get/" + faculty.getFacultyId()))
+                .andExpect(status().isNotFound());
 
     }
 
     @Test
-    void whenfindFacultyByColor() throws Exception {
+    void whenFindFacultyByColor() throws Exception {
 
         mockMvc.perform(get("/faculty/color?color=Black")) //+ faculty.getColor()))
                 .andExpect(status().isOk())
@@ -149,8 +152,6 @@ public class FacultyControllerTest {
                 .andExpect(jsonPath("$[0].facultyId").value(1))
                 .andExpect(jsonPath("$[0].nameFaculty").value("Dwarf"))// "Dwarf"
                 .andExpect(jsonPath("$[0].color").value("Black")); //"Black"
-
-//
 
         mockMvc.perform(get("/faculty/color"))
                 .andExpect(status().isNotFound());
