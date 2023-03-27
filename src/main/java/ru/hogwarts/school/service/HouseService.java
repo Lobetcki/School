@@ -11,7 +11,6 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.repositories.FacultyRepository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -46,11 +45,12 @@ public class HouseService {
     public FacultyDTO getFacultyDTO(Long facultyId) {
         logger.info("Was invoked method for get faculty");
 
-        Optional<Faculty> faculty = facultyRepository.findById(facultyId);
+        Faculty faculty = facultyRepository.findById(facultyId).orElse(null);
         if (faculty == null) {
             return null;
         }
-        return FacultyDTO.fromFaculty(facultyRepository.findById(facultyId).orElse(null));
+        return FacultyDTO.fromFaculty(faculty);
+//        return FacultyDTO.fromFaculty(facultyRepository.findById(facultyId).orElse(null));
     }
 
                                                                // Filter by color
