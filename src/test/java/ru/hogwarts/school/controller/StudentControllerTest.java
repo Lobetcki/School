@@ -166,14 +166,14 @@ public class StudentControllerTest extends ConfigContainers {
 
     @Test
     void whenFindStudents() throws Exception {
-        Long id = student.getIdStudent();
+        Long id = student.getIdStudent() - 1;
         mockMvc.perform(get("/students?studentAge=20&page=1&size=10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
 //                .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[" + id + "].nameStudent").value("test_name"))
                 .andExpect(jsonPath("$[" + id + "].ageStudent").value(20))
-                .andExpect(jsonPath("$[" + id + "].facultyID").value(1));
+                .andExpect(jsonPath("$[" + id + "].facultyID").value(faculty.getFacultyId()));
 
         mockMvc.perform(get("/students?min=2&max=30&page=1&size=10"))
                 .andExpect(status().isOk())
@@ -181,7 +181,7 @@ public class StudentControllerTest extends ConfigContainers {
 //                .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[" + id + "].nameStudent").value("test_name"))
                 .andExpect(jsonPath("$[" + id + "].ageStudent").value(20))
-                .andExpect(jsonPath("$[" + id + "].facultyID").value(1));
+                .andExpect(jsonPath("$[" + id + "].facultyID").value(faculty.getFacultyId()));
 
         mockMvc.perform(get("/students?page=1&size=1" + id + ""))
                 .andExpect(status().isOk())
@@ -189,7 +189,7 @@ public class StudentControllerTest extends ConfigContainers {
 //                .andExpect(jsonPath("$.length()").value(1))
                 .andExpect(jsonPath("$[" + id + "].nameStudent").value("test_name"))
                 .andExpect(jsonPath("$[" + id + "].ageStudent").value(20))
-                .andExpect(jsonPath("$[" + id + "].facultyID").value(1));
+                .andExpect(jsonPath("$[" + id + "].facultyID").value(faculty.getFacultyId()));
     }
 
     @Test
