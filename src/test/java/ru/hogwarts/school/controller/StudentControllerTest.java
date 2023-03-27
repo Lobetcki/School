@@ -90,13 +90,13 @@ public class StudentControllerTest {
                 .andExpect(jsonPath("$.ageStudent").value(25))
                 .andExpect(jsonPath("$.facultyID").value(1L));
 
-        mockMvc.perform(get("/students/"))
+        mockMvc.perform(get("/students/" + student.getIdStudent())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[1].nameStudent").value("test_name2"))
-                .andExpect(jsonPath("$[1].ageStudent").value(25))
-                .andExpect(jsonPath("$[1].facultyID").value(1));
+                .andExpect(jsonPath("$.idStudent").value(student.getIdStudent()))
+                .andExpect(jsonPath("$.nameStudent").value("test_name2"))
+                .andExpect(jsonPath("$.ageStudent").value(25))
+                .andExpect(jsonPath("$.facultyID").value(1));
     }
 
     @Test
@@ -104,7 +104,7 @@ public class StudentControllerTest {
 
         JSONObject jsonObject1 = new JSONObject();
 
-        jsonObject1.put("idStudent", 1);
+        jsonObject1.put("idStudent", student.getIdStudent());
         jsonObject1.put("nameStudent", "test_name2");
         jsonObject1.put("ageStudent", 25);
         jsonObject1.put("facultyID", 1L);
@@ -119,13 +119,13 @@ public class StudentControllerTest {
                 .andExpect(jsonPath("$.ageStudent").value(25))
                 .andExpect(jsonPath("$.facultyID").value(1L));
 
-        mockMvc.perform(get("/students/all"))
+        mockMvc.perform(get("/students/" + student.getIdStudent())
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].nameStudent").value("test_name2"))
-                .andExpect(jsonPath("$[0].ageStudent").value(25))
-                .andExpect(jsonPath("$[0].facultyID").value(1));
+                .andExpect(jsonPath("$.idStudent").value(student.getIdStudent()))
+                .andExpect(jsonPath("$.nameStudent").value("test_name2"))
+                .andExpect(jsonPath("$.ageStudent").value(25))
+                .andExpect(jsonPath("$.facultyID").value(1));
     }
 
     @Test
