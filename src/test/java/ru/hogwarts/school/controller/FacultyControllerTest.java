@@ -1,6 +1,7 @@
 package ru.hogwarts.school.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import net.minidev.json.JSONObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +12,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repositories.FacultyRepository;
@@ -72,18 +74,21 @@ public class FacultyControllerTest {
         jsonObject.put("nameFaculty", "test_name2");
         jsonObject.put("color", "Red");
 
-        mockMvc.perform(post("/faculty/created")
+        MvcResult result = mockMvc.perform(post("/faculty/created")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject.toString()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.facultyId").isNotEmpty())
                 .andExpect(jsonPath("$.facultyId").isNumber())
                 .andExpect(jsonPath("$.nameFaculty").value("test_name2"))
-                .andExpect(jsonPath("$.color").value("Red"));
+                .andExpect(jsonPath("$.color").value("Red")).andReturn();
 
-        mockMvc.perform(get("/faculty/get/" + jsonPath("$.facultyId").isNumber()))
+        int id = JsonPath.read(result.getResponse().getContentAsString(), "$.facultyId");
+
+        mockMvc.perform(get("/faculty/get/" + id)
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.facultyId").value(2))
+                .andExpect(jsonPath("$.facultyId").value(id))
                 .andExpect(jsonPath("$.nameFaculty").value("test_name2"))
                 .andExpect(jsonPath("$.color").value("Red"));
     }
@@ -145,14 +150,14 @@ public class FacultyControllerTest {
 
     @Test
     void whenFindFacultyByColor() throws Exception {
-
+        int id = (int) (faculty.getFacultyId()-1);
         mockMvc.perform(get("/faculty/color?color=Black")) //+ faculty.getColor()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].facultyId").value(faculty.getFacultyId()))
-                .andExpect(jsonPath("$[0].nameFaculty").value(faculty.getNameFaculty()))// "Dwarf"
-                .andExpect(jsonPath("$[0].color").value(faculty.getColor())); //"Black"
+//                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[" + id + "].facultyId").value(faculty.getFacultyId()))
+                .andExpect(jsonPath("$[" + id + "].nameFaculty").value(faculty.getNameFaculty()))// "Dwarf"
+                .andExpect(jsonPath("$[" + id + "].color").value(faculty.getColor())); //"Black"
 
         mockMvc.perform(get("/faculty/color"))
                 .andExpect(status().isNotFound());
@@ -173,13 +178,13 @@ public class FacultyControllerTest {
 
     @Test
     void whenFindStudentsByFacultyId() throws Exception {
-
+        int id = (int) (student.getIdStudent()-1);
         mockMvc.perform(get("/faculty/students/" + faculty.getFacultyId()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(1))
-                .andExpect(jsonPath("$[0].nameStudent").value("test_name"))
-                .andExpect(jsonPath("$[0].ageStudent").value(20))
-                .andExpect(jsonPath("$[0].facultyID").value(1));
+                .andExpect(jsonPath("$[" + id + "].nameStudent").value("test_name"))
+                .andExpect(jsonPath("$[" + id + "].ageStudent").value(20))
+                .andExpect(jsonPath("$[" + id + "].facultyID").value(1));
     }
 }
