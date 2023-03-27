@@ -7,7 +7,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -32,7 +31,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @Testcontainers
 @ActiveProfiles("test-containers")
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class StudentControllerTest extends ConfigContainers {
@@ -89,7 +88,7 @@ public class StudentControllerTest extends ConfigContainers {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("nameStudent", "test_name2");
         jsonObject.put("ageStudent", 25);
-        jsonObject.put("facultyID", 1L);
+        jsonObject.put("facultyID", faculty.getFacultyId());
 
         MvcResult result = mockMvc.perform(post("/students/created")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -99,7 +98,7 @@ public class StudentControllerTest extends ConfigContainers {
                 .andExpect(jsonPath("$.idStudent").isNumber())
                 .andExpect(jsonPath("$.nameStudent").value("test_name2"))
                 .andExpect(jsonPath("$.ageStudent").value(25))
-                .andExpect(jsonPath("$.facultyID").value(1L)).andReturn();
+                .andExpect(jsonPath("$.facultyID").value(faculty.getFacultyId())).andReturn();
 
         int id = JsonPath.read(result.getResponse().getContentAsString(), "$.idStudent");
 
@@ -109,7 +108,7 @@ public class StudentControllerTest extends ConfigContainers {
                 .andExpect(jsonPath("$.idStudent").value(id))
                 .andExpect(jsonPath("$.nameStudent").value("test_name2"))
                 .andExpect(jsonPath("$.ageStudent").value(25))
-                .andExpect(jsonPath("$.facultyID").value(1));
+                .andExpect(jsonPath("$.facultyID").value(faculty.getFacultyId()));
     }
 
     @Test
@@ -120,9 +119,9 @@ public class StudentControllerTest extends ConfigContainers {
         jsonObject1.put("idStudent", student.getIdStudent());
         jsonObject1.put("nameStudent", "test_name2");
         jsonObject1.put("ageStudent", 25);
-        jsonObject1.put("facultyID", 1L);
+        jsonObject1.put("facultyID", faculty.getFacultyId());
 
-        this.mockMvc.perform(put("/students/update")
+        mockMvc.perform(put("/students/update")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject1.toString()))
                 .andExpect(status().isOk())
@@ -130,7 +129,7 @@ public class StudentControllerTest extends ConfigContainers {
                 .andExpect(jsonPath("$.idStudent").isNumber())
                 .andExpect(jsonPath("$.nameStudent").value("test_name2"))
                 .andExpect(jsonPath("$.ageStudent").value(25))
-                .andExpect(jsonPath("$.facultyID").value(1L));
+                .andExpect(jsonPath("$.facultyID").value(faculty.getFacultyId()));
 
         mockMvc.perform(get("/students/" + student.getIdStudent())
                         .contentType(MediaType.APPLICATION_JSON))
@@ -138,7 +137,7 @@ public class StudentControllerTest extends ConfigContainers {
                 .andExpect(jsonPath("$.idStudent").value(student.getIdStudent()))
                 .andExpect(jsonPath("$.nameStudent").value("test_name2"))
                 .andExpect(jsonPath("$.ageStudent").value(25))
-                .andExpect(jsonPath("$.facultyID").value(1));
+                .andExpect(jsonPath("$.facultyID").value(faculty.getFacultyId()));
     }
 
     @Test
@@ -167,7 +166,7 @@ public class StudentControllerTest extends ConfigContainers {
 
     @Test
     void whenFindStudents() throws Exception {
-        int id = (int) (student.getIdStudent()-1);
+        Long id = student.getIdStudent();
         mockMvc.perform(get("/students?studentAge=20&page=1&size=10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
