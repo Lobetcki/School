@@ -166,7 +166,7 @@ public class StudentControllerTest extends ConfigContainers {
 
     @Test
     void whenFindStudents() throws Exception {
-        Long id = student.getIdStudent() - 1;
+        Long id = student.getIdStudent();
         mockMvc.perform(get("/students?studentAge=20&page=1&size=10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
