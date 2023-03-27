@@ -140,23 +140,33 @@ public class FacultyControllerTest {
     }
 
     @Test
-    void whenFindStudents() throws Exception {
+    void whenfindFacultyByColor() throws Exception {
 
-        mockMvc.perform(get("/faculty?color=" + faculty.getColor()))
+        mockMvc.perform(get("/faculty/color?color=Black")) //+ faculty.getColor()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.facultyId").value(1))
-                .andExpect(jsonPath("$.nameFaculty").value(faculty.getNameFaculty())) // "Dwarf"
-                .andExpect(jsonPath("$.color").value(faculty.getColor())); //"Black"
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].facultyId").value(1))
+                .andExpect(jsonPath("$[0].nameFaculty").value("Dwarf"))// "Dwarf"
+                .andExpect(jsonPath("$[0].color").value("Black")); //"Black"
 
-        mockMvc.perform(get("/faculty?nameFaculty=string" + faculty.getNameFaculty()))
+//
+
+        mockMvc.perform(get("/faculty/color"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void whenFindByNameFaculty() throws Exception {
+
+        mockMvc.perform(get("/faculty/name?nameFaculty=Dwarf")) // + faculty.getNameFaculty()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.facultyId").value(faculty.getFacultyId()))
                 .andExpect(jsonPath("$.nameFaculty").value(faculty.getNameFaculty()))
                 .andExpect(jsonPath("$.color").value(faculty.getColor()));
 
-        mockMvc.perform(get("/faculty"))
+        mockMvc.perform(get("/faculty/name"))
                 .andExpect(status().isNotFound());
-
     }
 
     @Test

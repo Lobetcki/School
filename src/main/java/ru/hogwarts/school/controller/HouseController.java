@@ -51,13 +51,16 @@ public class HouseController {
     }
 
                                                                     // Find  Faculty
-    @GetMapping
-    public ResponseEntity<Object> findFaculty(@RequestParam(required = false) String color,
-                                              @RequestParam(required = false) String nameFaculty) {
+    @GetMapping("/color")
+    public ResponseEntity<List<FacultyDTO>> findFacultyByColor(@RequestParam(required = false) String color) {
         if (color != null && !color.isBlank()) {
             return ResponseEntity.ok(houseService.filterByColorFaculty(color));
         }
+        return ResponseEntity.notFound().build();
+    }
 
+    @GetMapping("/name")
+    public ResponseEntity<FacultyDTO> findByNameFaculty(@RequestParam(required = false) String nameFaculty) {
         if (nameFaculty != null && !nameFaculty.isBlank()) {
             return ResponseEntity.ok(houseService.findByNameFaculty(nameFaculty));
         }
