@@ -90,7 +90,7 @@ public class StudentControllerTest {
                 .andExpect(jsonPath("$.ageStudent").value(25))
                 .andExpect(jsonPath("$.facultyID").value(1L));
 
-        mockMvc.perform(get("/students/all"))
+        mockMvc.perform(get("/students/"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$.length()").value(2))
@@ -131,13 +131,13 @@ public class StudentControllerTest {
     @Test
     void whenStudentDelete() throws Exception {
 
-        this.mockMvc.perform(delete("/students/delete/1") //+ student.getIdStudent())
+        this.mockMvc.perform(delete("/students/delete/" + student.getIdStudent())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-//        mockMvc.perform(get("/students/1") //+ student.getIdStudent()))
-//                        .contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(status().isNotFound());
+        mockMvc.perform(get("/students/" + student.getIdStudent())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
 
     }
 

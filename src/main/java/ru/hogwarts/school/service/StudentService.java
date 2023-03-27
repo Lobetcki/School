@@ -82,7 +82,12 @@ public class StudentService {
                                                                 // Get
     public StudentDTO getStudent(Long studentId) {
         logger.info("Was invoked method for get student");
-        return StudentDTO.fromStudent(studentRepository.findById(studentId).get());
+        Student student = studentRepository.findById(studentId).orElse(null);
+        if (student == null) {
+            return null;
+        }
+
+        return StudentDTO.fromStudent(student);
     }
                                                                 // Filter by age
     public List<StudentDTO> filterByAgeStudents(Integer age, Integer pageNumber, Integer pageSize) {
