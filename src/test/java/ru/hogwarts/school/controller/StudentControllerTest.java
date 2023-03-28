@@ -22,9 +22,12 @@ import ru.hogwarts.school.repositories.FacultyRepository;
 import ru.hogwarts.school.repositories.StudentRepository;
 import ru.hogwarts.school.service.StudentService;
 
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.hogwarts.school.service.StudentService.pageRequest;
 
 
 @SpringBootTest
@@ -166,19 +169,44 @@ public class StudentControllerTest extends ConfigContainers {
 
     @Test
     void whenFindStudents() throws Exception {
-        mockMvc.perform(get("/students?studentAge=20&page=1&size=10"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray());
+//        int id = JsonPath.read(result.getResponse().getContentAsString(), "$.idStudent");
 
+        List<Student> list = studentRepository.findStudentByAgeStudent(20, pageRequest(1, 1));
+        int id = Math.toIntExact(list.get(0).getIdStudent());
+        //MvcResult list =
+             mockMvc.perform(get("/students?studentAge=20&page=1&size=10")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+//                        .andExpect(jsonPath("$").isNotEmpty());
+//
+//        Long id = JsonPath.read(list.);
+//        Arrays.binarySearch(list.getInterceptors(), student)
+
+//
+//
+//
+//                .andExpect(jsonPath("$[" + id + "].nameStudent").value("test_name"))
+                .andExpect(jsonPath("$[" + id + "].nameStudent").value("test_name"))
+                .andExpect(jsonPath("$[" + id + "].ageStudent").value(20))
+                .andExpect(jsonPath("$[" + id + "].facultyID").value(faculty.getFacultyId()));
 
         mockMvc.perform(get("/students?min=20&max=20&page=1&size=10"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
-
+////                .andExpect(jsonPath("$.length()").value(1))
+//                .andExpect(List.contains(jsonPath("$")).value(student));
+//                .andExpect(jsonPath("$[" + id + "].nameStudent").value("test_name"))
+//                .andExpect(jsonPath("$[" + id + "].ageStudent").value(20))
+//                .andExpect(jsonPath("$[" + id + "].facultyID").value(faculty.getFacultyId()));
+//
         mockMvc.perform(get("/students?page=1&size=10" ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isArray());
-
+////                .andExpect(jsonPath("$.length()").value(1))
+//                .andExpect(jsonPath("$[" + id + "].nameStudent").value("test_name"))
+//                .andExpect(jsonPath("$[" + id + "].ageStudent").value(20))
+//                .andExpect(jsonPath("$[" + id + "].facultyID").value(faculty.getFacultyId()));
     }
 
     @Test
