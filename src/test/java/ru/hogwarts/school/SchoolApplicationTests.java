@@ -9,7 +9,6 @@ import org.springframework.test.annotation.DirtiesContext;
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class SchoolApplicationTests {
-
     @Test
     void contextLoads() {
     }
